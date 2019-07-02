@@ -29,12 +29,25 @@ public:
 
     void addFileLinkOrder(const char* file, uint order);
 
+    stringlist preBuildSteps() const;
+    stringlist postBuildSteps() const;
+
+    stringlist defines() const;
+    stringlist includePaths() const;
+
+    stringlist compilerOptions() const;
+    stringlist linkerOptions() const;
+    stringlist archiverOptions() const;
+
+    stringsetmap fileOptionsAdded() const;
+    stringsetmap fileOptionsRemoved() const;
+
 private:
 
     stringlist mPreBuildSteps;
     stringlist mPostBuildSteps;
 
-    stringset  mDefines;
+    stringlist mDefines;
     stringlist mIncludePaths;
 
     stringlist mCompilerOptions;

@@ -2,8 +2,8 @@
 #define PROJECTREADER_H
 
 #include <string>
-#include <projectsettings.h>
-#include <projectparser.h>
+#include "projectsettings.h"
+#include "projectparser.h"
 
 class ProjectReader
 {
@@ -18,7 +18,6 @@ public:
 
 private:
 
-//    ProjectParser mParser;
     ProjectSettings mSettings;
     std::string     mPath;
     std::string     mLastError;

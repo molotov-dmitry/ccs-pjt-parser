@@ -115,6 +115,18 @@ void ProjectSettings::addFileLinkOrder(const char* config, const char *file, uin
     mConfigs[config].addFileLinkOrder(file, order);
 }
 
+stringset ProjectSettings::configs() const
+{
+    stringset keys;
+
+    for (auto const& element : mConfigs)
+    {
+        keys.insert(element.first);
+    }
+
+    return keys;
+}
+
 stringset ProjectSettings::tools() const
 {
     return mTools;
@@ -153,4 +165,21 @@ const stringset& ProjectSettings::c_commands() const
 const stringset& ProjectSettings::c_libraries() const
 {
     return mLibraries;
+}
+
+uint32_t ProjectSettings::toolFlags() const
+{
+    return mToolFlags;
+}
+
+ConfigSettings ProjectSettings::configSettings(const char* config) const
+{
+    if (mConfigs.find(config) != mConfigs.end())
+    {
+        return mConfigs.at(config);
+    }
+    else
+    {
+        return ConfigSettings();
+    }
 }

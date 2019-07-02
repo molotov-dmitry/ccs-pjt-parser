@@ -20,6 +20,13 @@ public:
         LIBRARY,
     };
 
+    enum ProjectType
+    {
+        PROJECT_UNKNOWN,
+        PROJECT_EXECUTABLE,
+        PROJECT_LIBRARY
+    };
+
     enum ToolFlags
     {
         TOOL_COMPILER = 0x00000001u,
@@ -53,6 +60,7 @@ public:
 
     void addFileLinkOrder(const char* config, const char* file, uint order);
 
+    stringset configs() const;
     stringset tools() const;
     stringset sources() const;
     stringset commands() const;
@@ -62,6 +70,10 @@ public:
     const stringset& c_sources() const;
     const stringset& c_commands() const;
     const stringset& c_libraries() const;
+
+    uint32_t  toolFlags() const;
+
+    ConfigSettings configSettings(const char* config) const;
 
 private:
     Type        mType;

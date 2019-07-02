@@ -23,8 +23,6 @@ bool ProjectReader::read(const char *path)
 
     mLastError.clear();
 
-//    mParser.clear();
-
     //// Check argument count ==================================================
 
     if (mPath.empty())
