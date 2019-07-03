@@ -38,45 +38,82 @@ public:
 
     ProjectSettings();
 
-    void clear();
+    void        clear();
 
-    Type projectType() const;
-    void setProjectType(const Type &projectType);
+    //// Global settings =======================================================
 
-    void addTool(const char* tool);
+    //// Project type ----------------------------------------------------------
+
+    Type        projectType() const;
+    void        setProjectType(const Type &projectType);
+
+    //// CPU family ------------------------------------------------------------
+
+    std::string cpuFamily() const;
+    void        setCpuFamily(const char* cpuFamily);
+
+    //// Project directory -----------------------------------------------------
+
+    std::string projectDir() const;
+    void        setProjectDir(const char* projectDir);
+
+    //// Available tools -------------------------------------------------------
+
+    uint32_t    toolFlags() const;
+    stringset   tools() const;
+    cstringset& c_tools() const;
+
+    void        addTool(const char* tool);
+    void        removeTool(const char* tool);
+
+    //// Source list ===========================================================
+
+    stringset   sources() const;
+    cstringset& c_sources() const;
+
+    stringset   commands() const;
+    cstringset& c_commands() const;
+
+    stringset   libraries() const;
+    cstringset& c_libraries() const;
+
+    void        addSource(const char* source);
+
+    //// Configurations ========================================================
+
+    stringset       configs() const;
+    ConfigSettings  configSettings(const char* config) const;
+    ConfigSettings& configSettingsRef(const char* config);
 
     void addConfig(const char* config);
-    void addSource(const char* source);
+    void removeConfig(const char* config);
+
+    //// Build steps -----------------------------------------------------------
 
     void addPreBuildStep(const char* config, const char* action);
     void addPostBuildStep(const char* config, const char* action);
+
+    //// Tools options ---------------------------------------------------------
 
     void addCompilerOption(const char* config, const char* option);
     void addLinkerOption(const char* config, const char* option);
     void addArchiverOption(const char* config, const char* option);
 
+    //// Custom files compiler options -----------------------------------------
+
     void addFileOptionAdded(const char* config, const char* file, const char* option);
     void addFileOptionRemoved(const char* config, const char* file, const char* option);
 
+    //// Files linking order ---------------------------------------------------
+
     void addFileLinkOrder(const char* config, const char* file, uint order);
 
-    stringset configs() const;
-    stringset tools() const;
-    stringset sources() const;
-    stringset commands() const;
-    stringset libraries() const;
-
-    const stringset& c_tools() const;
-    const stringset& c_sources() const;
-    const stringset& c_commands() const;
-    const stringset& c_libraries() const;
-
-    uint32_t  toolFlags() const;
-
-    ConfigSettings configSettings(const char* config) const;
+    //// =======================================================================
 
 private:
     Type        mType;
+    std::string mCpuFamily;
+    std::string mProjectDir;
 
     uint32_t    mToolFlags;
 

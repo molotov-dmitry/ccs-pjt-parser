@@ -12,6 +12,9 @@ std::string string_format(const char *format, ...)
     int size = vsnprintf(nullptr, 0, format, args_size) + 1;
     if (size < 0)
     {
+        va_end(args_size);
+        va_end(args);
+
         return std::string();
     }
 

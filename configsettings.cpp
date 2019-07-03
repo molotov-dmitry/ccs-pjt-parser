@@ -9,6 +9,18 @@ ConfigSettings::ConfigSettings()
 
 }
 
+//// Build steps ===============================================================
+
+stringlist ConfigSettings::preBuildSteps() const
+{
+    return mPreBuildSteps;
+}
+
+stringlist ConfigSettings::postBuildSteps() const
+{
+    return mPostBuildSteps;
+}
+
 void ConfigSettings::addPreBuildStep(const char *action)
 {
     mPreBuildSteps.push_back(action);
@@ -17,6 +29,28 @@ void ConfigSettings::addPreBuildStep(const char *action)
 void ConfigSettings::addPostBuildStep(const char *action)
 {
     mPostBuildSteps.push_back(action);
+}
+
+//// Compiler options ==========================================================
+
+stringlist ConfigSettings::defines() const
+{
+    return mDefines;
+}
+
+stringlist ConfigSettings::undefines() const
+{
+    return mUndefines;
+}
+
+stringlist ConfigSettings::includePaths() const
+{
+    return mIncludePaths;
+}
+
+stringlist ConfigSettings::compilerOptions() const
+{
+    return mCompilerOptions;
 }
 
 void ConfigSettings::addCompilerOption(const char *option)
@@ -33,12 +67,25 @@ void ConfigSettings::addCompilerOption(const char *option)
 
         mDefines.push_back(define);
     }
+    else if (starts_with(option, "-u\"") && ends_with(option, "\""))
+    {
+        std::string undefine = std::string(option).substr(3, strlen(option) - 4);
+
+        mUndefines.push_back(undefine);
+    }
     else
     {
         std::string opt = std::string(option);
 
         mCompilerOptions.push_back(opt);
     }
+}
+
+//// Linker options ============================================================
+
+stringlist ConfigSettings::linkerOptions() const
+{
+    return mLinkerOptions;
 }
 
 void ConfigSettings::addLinkerOption(const char *option)
@@ -48,11 +95,30 @@ void ConfigSettings::addLinkerOption(const char *option)
     mLinkerOptions.push_back(opt);
 }
 
+//// Archiver options ==========================================================
+
+stringlist ConfigSettings::archiverOptions() const
+{
+    return mArchiverOptions;
+}
+
 void ConfigSettings::addArchiverOption(const char *option)
 {
     std::string opt = std::string(option);
 
     mArchiverOptions.push_back(opt);
+}
+
+//// Custom files compiler options =============================================
+
+stringsetmap ConfigSettings::fileOptionsAdded() const
+{
+    return mFileOptionsAdded;
+}
+
+stringsetmap ConfigSettings::fileOptionsRemoved() const
+{
+    return mFileOptionsRemoved;
 }
 
 void ConfigSettings::addFileOptionAdded(const char *file, const char *option)
@@ -69,52 +135,10 @@ void ConfigSettings::addFileOptionRemoved(const char *file, const char *option)
     opt.insert(option);
 }
 
+//// Files linking order =======================================================
+
 void ConfigSettings::addFileLinkOrder(const char *file, uint order)
 {
     mFileLinkOrder[file] = order;
 }
 
-stringlist ConfigSettings::preBuildSteps() const
-{
-    return mPreBuildSteps;
-}
-
-stringlist ConfigSettings::postBuildSteps() const
-{
-    return mPostBuildSteps;
-}
-
-stringlist ConfigSettings::defines() const
-{
-    return mDefines;
-}
-
-stringlist ConfigSettings::includePaths() const
-{
-    return mIncludePaths;
-}
-
-stringlist ConfigSettings::compilerOptions() const
-{
-    return mCompilerOptions;
-}
-
-stringlist ConfigSettings::linkerOptions() const
-{
-    return mLinkerOptions;
-}
-
-stringlist ConfigSettings::archiverOptions() const
-{
-    return mArchiverOptions;
-}
-
-stringsetmap ConfigSettings::fileOptionsAdded() const
-{
-    return mFileOptionsAdded;
-}
-
-stringsetmap ConfigSettings::fileOptionsRemoved() const
-{
-    return mFileOptionsRemoved;
-}

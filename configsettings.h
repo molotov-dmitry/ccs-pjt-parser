@@ -8,6 +8,8 @@
 typedef std::set<std::string> stringset;
 typedef std::list<std::string> stringlist;
 
+typedef const stringset cstringset;
+
 typedef std::map<std::string, stringset> stringsetmap;
 typedef std::map<std::string, stringlist> stringlistmap;
 
@@ -17,30 +19,46 @@ public:
 
     ConfigSettings();
 
-    void addPreBuildStep(const char* action);
-    void addPostBuildStep(const char* action);
-
-    void addCompilerOption(const char* option);
-    void addLinkerOption(const char* option);
-    void addArchiverOption(const char* option);
-
-    void addFileOptionAdded(const char* file, const char* option);
-    void addFileOptionRemoved(const char* file, const char* option);
-
-    void addFileLinkOrder(const char* file, uint order);
+    //// Build steps ===========================================================
 
     stringlist preBuildSteps() const;
     stringlist postBuildSteps() const;
 
-    stringlist defines() const;
-    stringlist includePaths() const;
+    void addPreBuildStep(const char* action);
+    void addPostBuildStep(const char* action);
 
+    //// Compiler options ======================================================
+
+    stringlist defines() const;
+    stringlist undefines() const;
+    stringlist includePaths() const;
     stringlist compilerOptions() const;
+
+    void addCompilerOption(const char* option);
+
+    //// Linker options ========================================================
+
     stringlist linkerOptions() const;
+
+    void addLinkerOption(const char* option);
+
+    //// Archiver options ======================================================
+
     stringlist archiverOptions() const;
+
+    void addArchiverOption(const char* option);
+
+    //// Custom files compiler options =========================================
 
     stringsetmap fileOptionsAdded() const;
     stringsetmap fileOptionsRemoved() const;
+
+    void addFileOptionAdded(const char* file, const char* option);
+    void addFileOptionRemoved(const char* file, const char* option);
+
+    //// Files linking order ===================================================
+
+    void addFileLinkOrder(const char* file, uint order);
 
 private:
 
@@ -48,6 +66,7 @@ private:
     stringlist mPostBuildSteps;
 
     stringlist mDefines;
+    stringlist mUndefines;
     stringlist mIncludePaths;
 
     stringlist mCompilerOptions;

@@ -265,6 +265,20 @@ bool ProjectParser::parseProjectSettings(const std::string& key, const std::stri
         mProjectSettings.addConfig(value.c_str());
     }
 
+    //// CPU family ============================================================
+
+    else if (strcasecmp(key.c_str(), "CPUFamily") == 0)
+    {
+        mProjectSettings.setCpuFamily(value.c_str());
+    }
+
+    //// Project path ==========================================================
+
+    else if (strcasecmp(key.c_str(), "ProjectDir") == 0)
+    {
+        mProjectSettings.setProjectDir(value.c_str());
+    }
+
     //// Unknown ===============================================================
 
     else
