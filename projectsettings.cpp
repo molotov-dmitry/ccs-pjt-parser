@@ -31,7 +31,7 @@ ProjectSettings::Type ProjectSettings::projectType() const
     return mType;
 }
 
-void ProjectSettings::setProjectType(const ProjectSettings::Type &projectType)
+void ProjectSettings::setProjectType(const ProjectSettings::Type& projectType)
 {
     mType = projectType;
 }
@@ -43,7 +43,7 @@ std::string ProjectSettings::cpuFamily() const
     return mCpuFamily;
 }
 
-void ProjectSettings::setCpuFamily(const char *cpuFamily)
+void ProjectSettings::setCpuFamily(const char* cpuFamily)
 {
     mCpuFamily = cpuFamily;
 }
@@ -55,7 +55,7 @@ std::string ProjectSettings::projectDir() const
     return mProjectDir;
 }
 
-void ProjectSettings::setProjectDir(const char *projectDir)
+void ProjectSettings::setProjectDir(const char* projectDir)
 {
     mProjectDir = projectDir;
 }
@@ -77,7 +77,7 @@ cstringset& ProjectSettings::c_tools() const
     return mTools;
 }
 
-void ProjectSettings::addTool(const char *tool)
+void ProjectSettings::addTool(const char* tool)
 {
     if (strcasecmp(tool, "Compiler") == 0)
     {
@@ -99,7 +99,7 @@ void ProjectSettings::addTool(const char *tool)
     mTools.insert(tool);
 }
 
-void ProjectSettings::removeTool(const char *tool)
+void ProjectSettings::removeTool(const char* tool)
 {
     if (strcasecmp(tool, "Compiler") == 0)
     {
@@ -128,7 +128,7 @@ stringset ProjectSettings::sources() const
     return mSources;
 }
 
-cstringset &ProjectSettings::c_sources() const
+cstringset& ProjectSettings::c_sources() const
 {
     return mSources;
 }
@@ -138,7 +138,7 @@ stringset ProjectSettings::commands() const
     return mCommands;
 }
 
-cstringset &ProjectSettings::c_commands() const
+cstringset& ProjectSettings::c_commands() const
 {
     return mCommands;
 }
@@ -148,12 +148,12 @@ stringset ProjectSettings::libraries() const
     return mLibraries;
 }
 
-cstringset &ProjectSettings::c_libraries() const
+cstringset& ProjectSettings::c_libraries() const
 {
     return mLibraries;
 }
 
-void ProjectSettings::addSource(const char *source)
+void ProjectSettings::addSource(const char* source)
 {
     if (ends_with(source, ".cmd", false))
     {
@@ -183,7 +183,7 @@ stringset ProjectSettings::configs() const
     return keys;
 }
 
-ConfigSettings ProjectSettings::configSettings(const char *config) const
+ConfigSettings ProjectSettings::configSettings(const char* config) const
 {
     if (mConfigs.find(config) != mConfigs.end())
     {
@@ -195,65 +195,65 @@ ConfigSettings ProjectSettings::configSettings(const char *config) const
     }
 }
 
-ConfigSettings &ProjectSettings::configSettingsRef(const char *config)
+ConfigSettings& ProjectSettings::configSettingsRef(const char* config)
 {
     return mConfigs[config];
 }
 
-void ProjectSettings::addConfig(const char *config)
+void ProjectSettings::addConfig(const char* config)
 {
     mConfigs.insert(std::make_pair(std::string(config), ConfigSettings()));
 }
 
-void ProjectSettings::removeConfig(const char *config)
+void ProjectSettings::removeConfig(const char* config)
 {
     mConfigs.erase(config);
 }
 
 //// Build steps ---------------------------------------------------------------
 
-void ProjectSettings::addPreBuildStep(const char *config, const char *action)
+void ProjectSettings::addPreBuildStep(const char* config, const char* action)
 {
     mConfigs[config].addPreBuildStep(action);
 }
 
-void ProjectSettings::addPostBuildStep(const char *config, const char *action)
+void ProjectSettings::addPostBuildStep(const char* config, const char* action)
 {
     mConfigs[config].addPostBuildStep(action);
 }
 
 //// Tools options -------------------------------------------------------------
 
-void ProjectSettings::addCompilerOption(const char *config, const char *option)
+void ProjectSettings::addCompilerOption(const char* config, const char* option)
 {
     mConfigs[config].addCompilerOption(option);
 }
 
-void ProjectSettings::addLinkerOption(const char *config, const char *option)
+void ProjectSettings::addLinkerOption(const char* config, const char* option)
 {
     mConfigs[config].addLinkerOption(option);
 }
 
-void ProjectSettings::addArchiverOption(const char *config, const char *option)
+void ProjectSettings::addArchiverOption(const char* config, const char* option)
 {
     mConfigs[config].addArchiverOption(option);
 }
 
 //// Custom files compiler options ---------------------------------------------
 
-void ProjectSettings::addFileOptionAdded(const char *config, const char *file, const char *option)
+void ProjectSettings::addFileOptionAdded(const char* config, const char* file, const char* option)
 {
     mConfigs[config].addFileOptionAdded(file, option);
 }
 
-void ProjectSettings::addFileOptionRemoved(const char *config, const char *file, const char *option)
+void ProjectSettings::addFileOptionRemoved(const char* config, const char* file, const char* option)
 {
     mConfigs[config].addFileOptionRemoved(file, option);
 }
 
 //// Files linking order -------------------------------------------------------
 
-void ProjectSettings::addFileLinkOrder(const char *config, const char *file, uint order)
+void ProjectSettings::addFileLinkOrder(const char* config, const char* file, uint order)
 {
     mConfigs[config].addFileLinkOrder(file, order);
 }

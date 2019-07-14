@@ -79,7 +79,7 @@ bool ProjectParser::isConfigSettingsSection(const std::string& line, std::string
     return true;
 }
 
-bool ProjectParser::getFileSettingsSection(const std::string &line, std::string &config, std::string &file, const stringset& file_set) const
+bool ProjectParser::getFileSettingsSection(const std::string& line, std::string& config, std::string& file, const stringset& file_set) const
 {
     std::unique_ptr<char[]> config_buf(new char[line.size() + 1]);
     std::unique_ptr<char[]> file_buf(new char[line.size() + 1]);
@@ -129,13 +129,13 @@ bool ProjectParser::isSourceSettingsSection(const std::string& line, std::string
                                   source, mProjectSettings.c_sources());
 }
 
-bool ProjectParser::isLibrarySettingsSection(const std::string &line, std::string &config, std::string &library) const
+bool ProjectParser::isLibrarySettingsSection(const std::string& line, std::string& config, std::string& library) const
 {
     return getFileSettingsSection(line, config,
                                   library, mProjectSettings.c_libraries());
 }
 
-bool ProjectParser::isCommandSettingsSection(const std::string &line, std::string &config, std::string &command) const
+bool ProjectParser::isCommandSettingsSection(const std::string& line, std::string& config, std::string& command) const
 {
     return getFileSettingsSection(line, config,
                                   command, mProjectSettings.c_commands());
@@ -461,7 +461,7 @@ bool ProjectParser::parseSourceSettings(const std::string& key, const std::strin
     return true;
 }
 
-bool ProjectParser::parseLibrarySettings(const std::string &key, const std::string &value)
+bool ProjectParser::parseLibrarySettings(const std::string& key, const std::string& value)
 {
     (void)key;
     (void)value;
@@ -474,7 +474,7 @@ bool ProjectParser::parseLibrarySettings(const std::string &key, const std::stri
 
 }
 
-bool ProjectParser::parseCommandSettings(const std::string &key, const std::string &value)
+bool ProjectParser::parseCommandSettings(const std::string& key, const std::string& value)
 {
     //// Link order ============================================================
 

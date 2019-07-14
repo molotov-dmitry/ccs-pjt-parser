@@ -3,10 +3,10 @@
 #include <memory>
 #include <string.h>
 
-std::string string_format(const char *format, ...)
+std::string string_format(const char* format, ...)
 {
     va_list args, args_size;
-    va_start (args, format);
+    va_start(args, format);
     va_copy(args_size, args);
 
     int size = vsnprintf(nullptr, 0, format, args_size) + 1;

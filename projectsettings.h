@@ -45,7 +45,7 @@ public:
     //// Project type ----------------------------------------------------------
 
     Type        projectType() const;
-    void        setProjectType(const Type &projectType);
+    void        setProjectType(const Type& projectType);
 
     //// CPU family ------------------------------------------------------------
 

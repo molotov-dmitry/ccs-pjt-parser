@@ -44,7 +44,7 @@ private:
     bool isSection(const std::string& line) const;
     bool isConfigSettingsSection(const std::string& line, std::string& config) const;
 
-    bool getFileSettingsSection(const std::string& line, std::string& config, std::string& file, const stringset &file_set) const;
+    bool getFileSettingsSection(const std::string& line, std::string& config, std::string& file, const stringset& file_set) const;
 
     bool isToolSettingsSection(const std::string& line, std::string& config, std::string& tool) const;
     bool isSourceSettingsSection(const std::string& line, std::string& config, std::string& source) const;

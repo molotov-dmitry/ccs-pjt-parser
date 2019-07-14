@@ -5,7 +5,7 @@
 #include <list>
 #include <stdarg.h>
 
-std::string string_format(const char *format, ...);
+std::string string_format(const char* format, ...);
 
 bool starts_with(const std::string& str, const std::string& start, bool case_sensitive = true);
 bool ends_with(const std::string& str, const std::string& end, bool case_sensitive = true);

@@ -6,7 +6,7 @@
 
 #include "utils.h"
 
-ProjectReader::ProjectReader(const char *path)
+ProjectReader::ProjectReader(const char* path)
 {
     if (path != nullptr)
     {
@@ -14,7 +14,7 @@ ProjectReader::ProjectReader(const char *path)
     }
 }
 
-bool ProjectReader::read(const char *path)
+bool ProjectReader::read(const char* path)
 {
     if (path != nullptr)
     {
@@ -139,7 +139,7 @@ ProjectSettings ProjectReader::projectSettings() const
     return mSettings;
 }
 
-void ProjectReader::removeLineFeeds(char *string, size_t &length)
+void ProjectReader::removeLineFeeds(char* string, size_t& length)
 {
     size_t lineFeeds = 0;
 

@@ -21,12 +21,12 @@ stringlist ConfigSettings::postBuildSteps() const
     return mPostBuildSteps;
 }
 
-void ConfigSettings::addPreBuildStep(const char *action)
+void ConfigSettings::addPreBuildStep(const char* action)
 {
     mPreBuildSteps.push_back(action);
 }
 
-void ConfigSettings::addPostBuildStep(const char *action)
+void ConfigSettings::addPostBuildStep(const char* action)
 {
     mPostBuildSteps.push_back(action);
 }
@@ -53,7 +53,7 @@ stringlist ConfigSettings::compilerOptions() const
     return mCompilerOptions;
 }
 
-void ConfigSettings::addCompilerOption(const char *option)
+void ConfigSettings::addCompilerOption(const char* option)
 {
     if (starts_with(option, "-i\"") && ends_with(option, "\""))
     {
@@ -88,7 +88,7 @@ stringlist ConfigSettings::linkerOptions() const
     return mLinkerOptions;
 }
 
-void ConfigSettings::addLinkerOption(const char *option)
+void ConfigSettings::addLinkerOption(const char* option)
 {
     std::string opt = std::string(option);
 
@@ -102,7 +102,7 @@ stringlist ConfigSettings::archiverOptions() const
     return mArchiverOptions;
 }
 
-void ConfigSettings::addArchiverOption(const char *option)
+void ConfigSettings::addArchiverOption(const char* option)
 {
     std::string opt = std::string(option);
 
@@ -121,14 +121,14 @@ stringsetmap ConfigSettings::fileOptionsRemoved() const
     return mFileOptionsRemoved;
 }
 
-void ConfigSettings::addFileOptionAdded(const char *file, const char *option)
+void ConfigSettings::addFileOptionAdded(const char* file, const char* option)
 {
     stringset& opt = mFileOptionsAdded[file];
 
     opt.insert(option);
 }
 
-void ConfigSettings::addFileOptionRemoved(const char *file, const char *option)
+void ConfigSettings::addFileOptionRemoved(const char* file, const char* option)
 {
     stringset& opt = mFileOptionsRemoved[file];
 
@@ -137,7 +137,7 @@ void ConfigSettings::addFileOptionRemoved(const char *file, const char *option)
 
 //// Files linking order =======================================================
 
-void ConfigSettings::addFileLinkOrder(const char *file, uint order)
+void ConfigSettings::addFileLinkOrder(const char* file, uint order)
 {
     mFileLinkOrder[file] = order;
 }
