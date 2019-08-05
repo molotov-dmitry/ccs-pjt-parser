@@ -125,6 +125,58 @@ std::set<std::string> keys(const std::map<std::string, std::list<std::string> > 
     return result;
 }
 
+std::string join(const std::list<std::string> &list, char sep)
+{
+    size_t listsize = 0;
+    std::string result;
+
+    for (const std::string& str : list)
+    {
+        listsize += str.size() + 1;
+    }
+
+    result.reserve(listsize);
+
+    for (const std::string& str : list)
+    {
+        result.append(str);
+        result.append(std::string(&sep, 1));
+    }
+
+    if (not result.empty())
+    {
+        result.pop_back();
+    }
+
+    return result;
+}
+
+std::string join(const std::set<std::string> &list, char sep)
+{
+    size_t listsize = 0;
+    std::string result;
+
+    for (const std::string& str : list)
+    {
+        listsize += str.size() + 1;
+    }
+
+    result.reserve(listsize);
+
+    for (const std::string& str : list)
+    {
+        result.append(str);
+        result.append(std::string(&sep, 1));
+    }
+
+    if (not result.empty())
+    {
+        result.pop_back();
+    }
+
+    return result;
+}
+
 std::list<std::string> split(const std::string& str, char sep)
 {
     std::list<std::string> result;
