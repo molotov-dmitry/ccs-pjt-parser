@@ -10,11 +10,15 @@ SOURCES += main.cpp \
     projectsettings.cpp \
     utils.cpp \
     configsettings.cpp \
-    projectreader.cpp
+    projectreader.cpp \
+    export/abstractprojectexport.cpp \
+    export/projectexportccs3.cpp
 
 HEADERS += \
     projectparser.h \
     projectsettings.h \
     utils.h \
     configsettings.h \
-    projectreader.h
+    projectreader.h \
+    export/abstractprojectexport.h \
+    export/projectexportccs3.h

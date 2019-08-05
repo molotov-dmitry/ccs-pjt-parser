@@ -1,4 +1,5 @@
 ﻿#include "projectreader.h"
+#include "export/projectexportccs3.h"
 
 #include <iostream>
 
@@ -21,6 +22,16 @@ int main(int argc, char* argv[])
     {
         std::cerr << reader.lastError() << std::endl;
         return 2;
+    }
+
+    //// Print project =========================================================
+
+    ProjectExportCcs3 writer;
+
+    if (not writer.write(reader.projectSettings()))
+    {
+        std::cerr << writer.lastError() << std::endl;
+        return 3;
     }
 
     //// =======================================================================
