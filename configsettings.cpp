@@ -135,6 +135,11 @@ void ConfigSettings::addFileOptionRemoved(const char* file, const char* option)
     opt.insert(option);
 }
 
+std::map<std::string, uint> ConfigSettings::fileLinkOrder() const
+{
+    return mFileLinkOrder;
+}
+
 //// Files linking order =======================================================
 
 void ConfigSettings::addFileLinkOrder(const char* file, uint order)

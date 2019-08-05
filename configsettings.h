@@ -58,6 +58,8 @@ public:
 
     //// Files linking order ===================================================
 
+    std::map<std::string, uint> fileLinkOrder() const;
+
     void addFileLinkOrder(const char* file, uint order);
 
 private:
