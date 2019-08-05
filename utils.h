@@ -3,6 +3,8 @@
 
 #include <string>
 #include <list>
+#include <set>
+#include <map>
 #include <stdarg.h>
 
 std::string string_format(const char* format, ...);
@@ -14,6 +16,9 @@ bool split_config_line(const std::string& line, std::string& key, std::string& v
 
 bool in_quotes(const std::string& str);
 bool remove_quotes(std::string& str);
+
+std::set<std::string> keys(const std::map< std::string, std::set<std::string> >& map);
+std::set<std::string> keys(const std::map< std::string, std::list<std::string> >& map);
 
 std::list<std::string> split(const std::string& str, char sep);
 

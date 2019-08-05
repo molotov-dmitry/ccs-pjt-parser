@@ -101,6 +101,30 @@ bool remove_quotes(std::string& str)
     return false;
 }
 
+std::set<std::string> keys(const std::map<std::string, std::set<std::string> > &map)
+{
+    std::set<std::string> result;
+
+    for (auto it = map.begin(); it != map.end(); ++it)
+    {
+        result.insert(it->first);
+    }
+
+    return result;
+}
+
+std::set<std::string> keys(const std::map<std::string, std::list<std::string> > &map)
+{
+    std::set<std::string> result;
+
+    for (auto it = map.begin(); it != map.end(); ++it)
+    {
+        result.insert(it->first);
+    }
+
+    return result;
+}
+
 std::list<std::string> split(const std::string& str, char sep)
 {
     std::list<std::string> result;
