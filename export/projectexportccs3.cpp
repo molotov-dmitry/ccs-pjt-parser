@@ -164,7 +164,7 @@ bool ProjectExportCcs3::writeData(const ProjectSettings &settings, std::ostream 
             }
 
             out << "[\"" << source << "\" Settings: \"" << configName << "\"]" << std::endl;
-            writeConfig(out, "Options", join(compilerOptions, ' '));
+            writeConfig(out, "Options", join(compilerOptions, ' '), false);
 
             out << std::endl;
         }
