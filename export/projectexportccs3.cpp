@@ -74,7 +74,7 @@ bool ProjectExportCcs3::writeData(const ProjectSettings &settings, std::ostream 
 
         for (const std::string& step : config.postBuildSteps())
         {
-            writeConfig(out, "InitialBuildCmd", step, false);
+            writeConfig(out, "FinalBuildCmd", step, false);
         }
 
         out << std::endl;
