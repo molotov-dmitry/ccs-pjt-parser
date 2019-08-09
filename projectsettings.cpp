@@ -36,6 +36,23 @@ void ProjectSettings::setProjectType(const ProjectSettings::Type& projectType)
     mType = projectType;
 }
 
+std::string ProjectSettings::projectTypeString() const
+{
+    switch (mType)
+    {
+    case Type::UNKNOWN:
+        return "Unknown";
+
+    case Type::EXECUTABLE:
+        return "Executable";
+
+    case Type::LIBRARY:
+        return "Library";
+    }
+
+    return std::string();
+}
+
 //// CPU family ----------------------------------------------------------------
 
 std::string ProjectSettings::cpuFamily() const

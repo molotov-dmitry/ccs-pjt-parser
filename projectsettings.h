@@ -47,6 +47,8 @@ public:
     Type        projectType() const;
     void        setProjectType(const Type& projectType);
 
+    std::string projectTypeString() const;
+
     //// CPU family ------------------------------------------------------------
 
     std::string cpuFamily() const;
