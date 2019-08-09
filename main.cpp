@@ -5,12 +5,11 @@
 
 int main(int argc, char* argv[])
 {
-
     //// Check argument count ==================================================
 
     if (argc < 2)
     {
-        fprintf(stderr, "Missing project path argument");
+        std::cerr << "Missing project path argument" << std::endl;
         return 1;
     }
 
