@@ -113,7 +113,7 @@ bool ProjectExportCcs3::writeData(const ProjectSettings &settings, std::ostream 
         }
     }
 
-    //// Compiler options ======================================================
+    //// Linker options ========================================================
 
     if (settings.toolFlags() & ProjectSettings::TOOL_LINKER)
     {
@@ -129,7 +129,7 @@ bool ProjectExportCcs3::writeData(const ProjectSettings &settings, std::ostream 
         }
     }
 
-    //// Compiler options ======================================================
+    //// Archiver options ======================================================
 
     if (settings.toolFlags() & ProjectSettings::TOOL_ARCHIVER)
     {
