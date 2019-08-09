@@ -25,9 +25,16 @@ int main(int argc, char* argv[])
 
     //// Print project =========================================================
 
+    const char* exportPath = nullptr;
+
+    if (argc > 2)
+    {
+        exportPath = argv[2];
+    }
+
     ProjectExportCcs3 writer;
 
-    if (not writer.write(reader.projectSettings()))
+    if (not writer.write(reader.projectSettings(), exportPath))
     {
         std::cerr << writer.lastError() << std::endl;
         return 3;
