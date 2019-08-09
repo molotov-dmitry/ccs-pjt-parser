@@ -23,7 +23,7 @@ bool ProjectExportCcs3::writeData(const ProjectSettings &settings, std::ostream 
     out << "[Project Settings]" << std::endl;
 
     writeConfig(out, "ProjectDir", settings.projectDir());
-//    writeConfig(out, "ProjectType", settings.projectType())
+    writeConfig(out, "ProjectType", settings.projectTypeString(), false);
     writeConfig(out, "CPUFamily", settings.cpuFamily(), false);
 
     for (const std::string& tool : settings.c_tools())
