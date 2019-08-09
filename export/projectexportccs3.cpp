@@ -90,7 +90,24 @@ bool ProjectExportCcs3::writeData(const ProjectSettings &settings, std::ostream 
 
             out << "[\"Compiler\" Settings: \"" << configName << "\"]" << std::endl;
 
-            writeConfig(out, "Options", join(config.compilerOptions(), ' '), false);
+            std::list<std::string> options = config.compilerOptions();
+
+            for (const std::string& include : config.includePaths())
+            {
+                options.push_back("-i\"" + include + "\"");
+            }
+
+            for (const std::string& define : config.defines())
+            {
+                options.push_back("-d\"" + define + "\"");
+            }
+
+            for (const std::string& undefine : config.undefines())
+            {
+                options.push_back("-u\"" + undefine + "\"");
+            }
+
+            writeConfig(out, "Options", join(options, ' '), false);
 
             out << std::endl;
         }
