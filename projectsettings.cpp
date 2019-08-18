@@ -231,13 +231,29 @@ ConfigSettings& ProjectSettings::configSettingsRef(const char* config)
     return mConfigs[config];
 }
 
-void ProjectSettings::addConfig(const char* config)
+void ProjectSettings::addConfig(const std::string& config)
 {
     mConfigs.insert(std::make_pair(std::string(config), ConfigSettings()));
 }
 
-void ProjectSettings::removeConfig(const char* config)
+void ProjectSettings::removeConfig(const std::string& config)
 {
+    mConfigs.erase(config);
+}
+
+void ProjectSettings::copyConfig(const std::string& config, const std::string& newName)
+{
+    ConfigSettings settings = mConfigs[config];
+
+    mConfigs.insert(std::make_pair(std::string(newName), std::move(settings)));
+}
+
+void ProjectSettings::renameConfig(const std::string& config, const std::string& newName)
+{
+    ConfigSettings settings = mConfigs[config];
+
+    mConfigs.insert(std::make_pair(newName, std::move(settings)));
+
     mConfigs.erase(config);
 }
 

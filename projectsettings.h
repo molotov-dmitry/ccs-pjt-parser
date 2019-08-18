@@ -90,8 +90,11 @@ public:
     ConfigSettings  configSettings(const char* config) const;
     ConfigSettings& configSettingsRef(const char* config);
 
-    void addConfig(const char* config);
-    void removeConfig(const char* config);
+    void addConfig(const std::string& config);
+    void removeConfig(const std::string& config);
+
+    void copyConfig(const std::string& config, const std::string& newName);
+    void renameConfig(const std::string& config, const std::string& newName);
 
     //// Build steps -----------------------------------------------------------
 
