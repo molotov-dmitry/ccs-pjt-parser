@@ -68,6 +68,8 @@ public:
     void        addTool(const char* tool);
     void        removeTool(const char* tool);
 
+    void        clearTools();
+
     //// Source list ===========================================================
 
     stringset   sources() const;
@@ -80,6 +82,7 @@ public:
     cstringset& c_libraries() const;
 
     void        addSource(const char* source);
+    void        removeSource(const char* source);
 
     //// Configurations ========================================================
 
@@ -94,6 +97,12 @@ public:
 
     void addPreBuildStep(const char* config, const char* action);
     void addPostBuildStep(const char* config, const char* action);
+
+    void removePreBuildStep(const char* config, const char* action);
+    void removePostBuildStep(const char* config, const char* action);
+
+    void clearPreBuildSteps(const char* config);
+    void clearPostBuildSteps(const char* config);
 
     //// Tools options ---------------------------------------------------------
 

@@ -138,6 +138,13 @@ void ProjectSettings::removeTool(const char* tool)
     mTools.erase(tool);
 }
 
+void ProjectSettings::clearTools()
+{
+    mToolFlags = 0x00000000u;
+
+    mTools.clear();
+}
+
 //// Source list ===============================================================
 
 stringset ProjectSettings::sources() const
@@ -184,6 +191,13 @@ void ProjectSettings::addSource(const char* source)
     {
         mSources.insert(std::string(source));
     }
+}
+
+void ProjectSettings::removeSource(const char* source)
+{
+    mCommands.erase(std::string(source));
+    mLibraries.erase(std::string(source));
+    mSources.erase(std::string(source));
 }
 
 //// Configurations ============================================================
@@ -237,6 +251,26 @@ void ProjectSettings::addPreBuildStep(const char* config, const char* action)
 void ProjectSettings::addPostBuildStep(const char* config, const char* action)
 {
     mConfigs[config].addPostBuildStep(action);
+}
+
+void ProjectSettings::removePreBuildStep(const char* config, const char* action)
+{
+    mConfigs[config].removePreBuildStep(action);
+}
+
+void ProjectSettings::removePostBuildStep(const char* config, const char* action)
+{
+    mConfigs[config].removePostBuildStep(action);
+}
+
+void ProjectSettings::clearPreBuildSteps(const char* config)
+{
+    mConfigs[config].clearPreBuildSteps();
+}
+
+void ProjectSettings::clearPostBuildSteps(const char* config)
+{
+    mConfigs[config].clearPostBuildSteps();
 }
 
 //// Tools options -------------------------------------------------------------
