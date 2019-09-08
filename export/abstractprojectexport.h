@@ -4,7 +4,7 @@
 #include <string>
 #include <fstream>
 
-#include "projectsettings.h"
+#include "../projectsettings.h"
 
 class AbstractProjectExport
 {
