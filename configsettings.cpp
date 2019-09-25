@@ -111,6 +111,26 @@ void ConfigSettings::addCompilerOption(const char* option)
     }
 }
 
+void ConfigSettings::addDefine(const std::string& option)
+{
+    mDefines.push_back(option);
+}
+
+void ConfigSettings::addUndefine(const std::string& option)
+{
+    mUndefines.push_back(option);
+}
+
+void ConfigSettings::addIncludePath(const std::string& option)
+{
+    mIncludePaths.push_back(option);
+}
+
+void ConfigSettings::addOtherCompilerOption(const std::string& option)
+{
+    mCompilerOptions.push_back(option);
+}
+
 void ConfigSettings::addDefines(stringlist& options)
 {
     mDefines.splice(mDefines.end(), options);

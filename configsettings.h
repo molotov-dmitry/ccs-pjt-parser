@@ -45,6 +45,11 @@ public:
 
     void addCompilerOption(const char* option);
 
+    void addDefine(const std::string& option);
+    void addUndefine(const std::string& option);
+    void addIncludePath(const std::string& option);
+    void addOtherCompilerOption(const std::string& option);
+
     void addDefines(stringlist& options);
     void addUndefines(stringlist& options);
     void addIncludePaths(stringlist& options);
