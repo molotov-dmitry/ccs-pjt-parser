@@ -67,14 +67,14 @@ bool ProjectExportCcs3::writeData(const ProjectSettings &settings, std::ostream 
 
         ConfigSettings config = settings.configSettings(configName.c_str());
 
-        for (const std::string& step : config.preBuildSteps())
+        for (const BuildStep& step : config.preBuildSteps())
         {
-            writeConfig(out, "InitialBuildCmd", step, false);
+            writeConfig(out, "InitialBuildCmd", step.toString(), false);
         }
 
-        for (const std::string& step : config.postBuildSteps())
+        for (const BuildStep& step : config.postBuildSteps())
         {
-            writeConfig(out, "FinalBuildCmd", step, false);
+            writeConfig(out, "FinalBuildCmd", step.toString(), false);
         }
 
         out << std::endl;

@@ -11,44 +11,62 @@ ConfigSettings::ConfigSettings()
 
 //// Build steps ===============================================================
 
-stringlist ConfigSettings::preBuildSteps() const
+std::list<BuildStep> ConfigSettings::preBuildSteps() const
 {
     return mPreBuildSteps;
 }
 
-stringlist ConfigSettings::postBuildSteps() const
+std::list<BuildStep> ConfigSettings::postBuildSteps() const
 {
     return mPostBuildSteps;
 }
 
-void ConfigSettings::addPreBuildStep(const char* action)
+void ConfigSettings::addPreBuildStep(const std::string& action)
 {
-    mPreBuildSteps.push_back(action);
+    mPreBuildSteps.push_back(BuildStep::fromString(action));
 }
 
-void ConfigSettings::addPostBuildStep(const char* action)
+void ConfigSettings::addPostBuildStep(const std::string& action)
 {
-    mPostBuildSteps.push_back(action);
+    mPostBuildSteps.push_back(BuildStep::fromString(action));
 }
 
-void ConfigSettings::addPreBuildSteps(stringlist& actions)
+void ConfigSettings::addPreBuildStep(const std::string& action, int condition)
 {
-    mPreBuildSteps.splice(mPreBuildSteps.end(), actions);
+    mPreBuildSteps.push_back(BuildStep(action,
+                                       (BuildStep::BuildCondition)condition));
 }
 
-void ConfigSettings::addPostBuildSteps(stringlist& actions)
+void ConfigSettings::addPostBuildStep(const std::string& action, int condition)
 {
-    mPostBuildSteps.splice(mPostBuildSteps.end(), actions);
+    mPostBuildSteps.push_back(BuildStep(action,
+                                       (BuildStep::BuildCondition)condition));
 }
 
-void ConfigSettings::removePreBuildStep(const char* action)
+void ConfigSettings::addPreBuildSteps(const stringlist& actions)
 {
-    mPreBuildSteps.remove(std::string(action));
+    for (const std::string& action : actions)
+    {
+        addPreBuildStep(action);
+    }
 }
 
-void ConfigSettings::removePostBuildStep(const char* action)
+void ConfigSettings::addPostBuildSteps(const stringlist& actions)
 {
-    mPostBuildSteps.remove(std::string(action));
+    for (const std::string& action : actions)
+    {
+        addPostBuildStep(action);
+    }
+}
+
+void ConfigSettings::removePreBuildStep(const std::string& action)
+{
+    mPreBuildSteps.remove(BuildStep::fromString(action));
+}
+
+void ConfigSettings::removePostBuildStep(const std::string& action)
+{
+    mPostBuildSteps.remove(BuildStep::fromString(action));
 }
 
 void ConfigSettings::clearPreBuildSteps()

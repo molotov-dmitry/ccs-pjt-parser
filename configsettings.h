@@ -5,6 +5,8 @@
 #include <map>
 #include <list>
 
+#include "buildstep.h"
+
 typedef std::set<std::string> stringset;
 typedef std::list<std::string> stringlist;
 
@@ -21,17 +23,20 @@ public:
 
     //// Build steps ===========================================================
 
-    stringlist preBuildSteps() const;
-    stringlist postBuildSteps() const;
+    std::list<BuildStep> preBuildSteps() const;
+    std::list<BuildStep> postBuildSteps() const;
 
-    void addPreBuildStep(const char* action);
-    void addPostBuildStep(const char* action);
+    void addPreBuildStep(const std::string& action);
+    void addPostBuildStep(const std::string& action);
 
-    void addPreBuildSteps(stringlist& actions);
-    void addPostBuildSteps(stringlist& actions);
+    void addPreBuildStep(const std::string& action, int condition);
+    void addPostBuildStep(const std::string& action, int condition);
 
-    void removePreBuildStep(const char* action);
-    void removePostBuildStep(const char* action);
+    void addPreBuildSteps(const stringlist& actions);
+    void addPostBuildSteps(const stringlist& actions);
+
+    void removePreBuildStep(const std::string& action);
+    void removePostBuildStep(const std::string& action);
 
     void clearPreBuildSteps();
     void clearPostBuildSteps();
@@ -119,8 +124,8 @@ public:
 
 private:
 
-    stringlist mPreBuildSteps;
-    stringlist mPostBuildSteps;
+    std::list<BuildStep> mPreBuildSteps;
+    std::list<BuildStep> mPostBuildSteps;
 
     stringlist mDefines;
     stringlist mUndefines;
