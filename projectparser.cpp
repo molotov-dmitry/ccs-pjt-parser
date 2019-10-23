@@ -209,13 +209,9 @@ bool ProjectParser::parseData(const std::string& line)
         return parseToolSettings(key, val);
 
     case SectionType::SOURCE_SETTINGS:
-        return parseSourceSettings(key, val);
-
     case SectionType::LIBRARY_SETTINGS:
-        return parseLibrarySettings(key, val);
-
     case SectionType::COMMAND_SETTINGS:
-        return parseCommandSettings(key, val);
+        return parseSourceSettings(key, val);
 
     case SectionType::NONE:
         return true;
@@ -444,41 +440,9 @@ bool ProjectParser::parseSourceSettings(const std::string& key, const std::strin
         }
     }
 
-    //// Unknown ===============================================================
-
-    else
-    {
-        mLastError = string_format("Unknown option key '%s' for source file '%s' in configuration '%s'",
-                                   key.c_str(),
-                                   mCurrentFile.c_str(),
-                                   mCurrentConfig.c_str());
-
-        return false;
-    };
-
-    //// =======================================================================
-
-    return true;
-}
-
-bool ProjectParser::parseLibrarySettings(const std::string& key, const std::string& value)
-{
-    (void)key;
-    (void)value;
-
-    //// Unknown ===============================================================
-
-    return false;
-
-    //// =======================================================================
-
-}
-
-bool ProjectParser::parseCommandSettings(const std::string& key, const std::string& value)
-{
     //// Link order ============================================================
 
-    if (strcasecmp(key.c_str(), "LinkOrder") == 0)
+    else if (strcasecmp(key.c_str(), "LinkOrder") == 0)
     {
         uint order = 0;
         int bytes = 0;

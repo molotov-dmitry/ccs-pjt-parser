@@ -59,8 +59,6 @@ private:
     bool parseConfigSettings(const std::string& key, const std::string& value);
     bool parseToolSettings(const std::string& key, const std::string& value);
     bool parseSourceSettings(const std::string& key, const std::string& value);
-    bool parseLibrarySettings(const std::string& key, const std::string& value);
-    bool parseCommandSettings(const std::string& key, const std::string& value);
 };
 
 #endif // PROJECTPARSER_H
