@@ -65,7 +65,7 @@ bool ProjectExportCcs3::writeData(const ProjectSettings &settings, std::ostream 
     {
         out << "[\"" << configName << "\" Settings]" << std::endl;
 
-        ConfigSettings config = settings.configSettings(configName.c_str());
+        ConfigSettings config = settings.configSettings(configName);
 
         for (const BuildStep& step : config.preBuildSteps())
         {
@@ -86,7 +86,7 @@ bool ProjectExportCcs3::writeData(const ProjectSettings &settings, std::ostream 
     {
         for (const std::string& configName : settings.configs())
         {
-            ConfigSettings config = settings.configSettings(configName.c_str());
+            ConfigSettings config = settings.configSettings(configName);
 
             out << "[\"Compiler\" Settings: \"" << configName << "\"]" << std::endl;
 
@@ -119,7 +119,7 @@ bool ProjectExportCcs3::writeData(const ProjectSettings &settings, std::ostream 
     {
         for (const std::string& configName : settings.configs())
         {
-            ConfigSettings config = settings.configSettings(configName.c_str());
+            ConfigSettings config = settings.configSettings(configName);
 
             out << "[\"Linker\" Settings: \"" << configName << "\"]" << std::endl;
 
@@ -135,7 +135,7 @@ bool ProjectExportCcs3::writeData(const ProjectSettings &settings, std::ostream 
     {
         for (const std::string& configName : settings.configs())
         {
-            ConfigSettings config = settings.configSettings(configName.c_str());
+            ConfigSettings config = settings.configSettings(configName);
 
             out << "[\"Archiver\" Settings: \"" << configName << "\"]" << std::endl;
 
@@ -149,7 +149,7 @@ bool ProjectExportCcs3::writeData(const ProjectSettings &settings, std::ostream 
 
     for (const std::string& configName : settings.configs())
     {
-        ConfigSettings config = settings.configSettings(configName.c_str());
+        ConfigSettings config = settings.configSettings(configName);
 
         std::set<std::string> optionsAddedKeys = keys(config.fileOptionsAdded());
         std::set<std::string> optionsRemovedKeys = keys(config.fileOptionsRemoved());
@@ -191,7 +191,7 @@ bool ProjectExportCcs3::writeData(const ProjectSettings &settings, std::ostream 
 
     for (const std::string& configName : settings.configs())
     {
-        ConfigSettings config = settings.configSettings(configName.c_str());
+        ConfigSettings config = settings.configSettings(configName);
         std::map<std::string, uint> linkOrder = config.fileLinkOrder();
 
         for (auto it = linkOrder.begin(); it != linkOrder.end(); ++it)

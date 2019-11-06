@@ -87,40 +87,14 @@ public:
     //// Configurations ========================================================
 
     stringset       configs() const;
-    ConfigSettings  configSettings(const char* config) const;
-    ConfigSettings& configSettingsRef(const char* config);
+    ConfigSettings  configSettings(const std::string& config) const;
+    ConfigSettings& configSettingsRef(const std::string& config);
 
     void addConfig(const std::string& config);
     void removeConfig(const std::string& config);
 
     void copyConfig(const std::string& config, const std::string& newName);
     void renameConfig(const std::string& config, const std::string& newName);
-
-    //// Build steps -----------------------------------------------------------
-
-    void addPreBuildStep(const char* config, const char* action);
-    void addPostBuildStep(const char* config, const char* action);
-
-    void removePreBuildStep(const char* config, const char* action);
-    void removePostBuildStep(const char* config, const char* action);
-
-    void clearPreBuildSteps(const char* config);
-    void clearPostBuildSteps(const char* config);
-
-    //// Tools options ---------------------------------------------------------
-
-    void addCompilerOption(const char* config, const char* option);
-    void addLinkerOption(const char* config, const char* option);
-    void addArchiverOption(const char* config, const char* option);
-
-    //// Custom files compiler options -----------------------------------------
-
-    void addFileOptionAdded(const char* config, const char* file, const char* option);
-    void addFileOptionRemoved(const char* config, const char* file, const char* option);
-
-    //// Files linking order ---------------------------------------------------
-
-    void addFileLinkOrder(const char* config, const char* file, uint order);
 
     //// =======================================================================
 

@@ -324,14 +324,14 @@ bool ProjectParser::parseConfigSettings(const std::string& key, const std::strin
 
     if (strcasecmp(key.c_str(), "InitialBuildCmd") == 0)
     {
-        mProjectSettings.addPreBuildStep(mCurrentConfig.c_str(), value.c_str());
+        mProjectSettings.configSettingsRef(mCurrentConfig).preBuildStepsRef().add(value);
     }
 
     //// Post build step =======================================================
 
     else if (strcasecmp(key.c_str(), "FinalBuildCmd") == 0)
     {
-        mProjectSettings.addPostBuildStep(mCurrentConfig.c_str(), value.c_str());
+        mProjectSettings.configSettingsRef(mCurrentConfig).postBuildStepsRef().add(value);
     }
 
     //// Unknown ===============================================================
@@ -360,15 +360,15 @@ bool ProjectParser::parseToolSettings(const std::string& key, const std::string&
         {
             if (strcasecmp(mCurrentTool.c_str(), "Compiler") == 0)
             {
-                mProjectSettings.addCompilerOption(mCurrentConfig.c_str(), option.c_str());
+                mProjectSettings.configSettingsRef(mCurrentConfig).addCompilerOption(option.c_str());
             }
             else if (strcasecmp(mCurrentTool.c_str(), "Linker") == 0)
             {
-                mProjectSettings.addLinkerOption(mCurrentConfig.c_str(), option.c_str());
+                mProjectSettings.configSettingsRef(mCurrentConfig).addLinkerOption(option.c_str());
             }
             else if (strcasecmp(mCurrentTool.c_str(), "Archiver") == 0)
             {
-                mProjectSettings.addArchiverOption(mCurrentConfig.c_str(), option.c_str());
+                mProjectSettings.configSettingsRef(mCurrentConfig).addArchiverOption(option.c_str());
             }
             else
             {
@@ -408,9 +408,9 @@ bool ProjectParser::parseSourceSettings(const std::string& key, const std::strin
             {
                 for (const std::string& option : split(opt_add, ' '))
                 {
-                    mProjectSettings.addFileOptionAdded(mCurrentConfig.c_str(),
-                                                        mCurrentFile.c_str(),
-                                                        option.c_str());
+                    mProjectSettings.configSettingsRef(mCurrentConfig).addFileOptionAdded(
+                                mCurrentFile.c_str(),
+                                option.c_str());
                 }
             }
 
@@ -420,9 +420,9 @@ bool ProjectParser::parseSourceSettings(const std::string& key, const std::strin
             {
                 for (const std::string& option : split(opt_del, ' '))
                 {
-                    mProjectSettings.addFileOptionRemoved(mCurrentConfig.c_str(),
-                                                          mCurrentFile.c_str(),
-                                                          option.c_str());
+                    mProjectSettings.configSettingsRef(mCurrentConfig).addFileOptionRemoved(
+                                mCurrentFile.c_str(),
+                                option.c_str());
                 }
             }
         }
@@ -465,9 +465,9 @@ bool ProjectParser::parseSourceSettings(const std::string& key, const std::strin
             return false;
         }
 
-        mProjectSettings.addFileLinkOrder(mCurrentConfig.c_str(),
-                                          mCurrentFile.c_str(),
-                                          order);
+        mProjectSettings.configSettingsRef(mCurrentConfig).addFileLinkOrder(
+                    mCurrentFile.c_str(),
+                    order);
     }
 
     //// Unknown ===============================================================

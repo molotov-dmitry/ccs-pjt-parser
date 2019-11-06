@@ -12,7 +12,9 @@ SOURCES += main.cpp \
     configsettings.cpp \
     projectreader.cpp \
     export/abstractprojectexport.cpp \
-    export/projectexportccs3.cpp
+    export/projectexportccs3.cpp \
+    buildstep.cpp \
+    buildsteplist.cpp
 
 HEADERS += \
     projectparser.h \
@@ -21,4 +23,6 @@ HEADERS += \
     configsettings.h \
     projectreader.h \
     export/abstractprojectexport.h \
-    export/projectexportccs3.h
+    export/projectexportccs3.h \
+    buildstep.h \
+    buildsteplist.h

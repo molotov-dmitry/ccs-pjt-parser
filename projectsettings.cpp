@@ -214,7 +214,7 @@ stringset ProjectSettings::configs() const
     return keys;
 }
 
-ConfigSettings ProjectSettings::configSettings(const char* config) const
+ConfigSettings ProjectSettings::configSettings(const std::string& config) const
 {
     if (mConfigs.find(config) != mConfigs.end())
     {
@@ -226,7 +226,7 @@ ConfigSettings ProjectSettings::configSettings(const char* config) const
     }
 }
 
-ConfigSettings& ProjectSettings::configSettingsRef(const char* config)
+ConfigSettings& ProjectSettings::configSettingsRef(const std::string& config)
 {
     return mConfigs[config];
 }
@@ -255,72 +255,4 @@ void ProjectSettings::renameConfig(const std::string& config, const std::string&
     mConfigs.insert(std::make_pair(newName, std::move(settings)));
 
     mConfigs.erase(config);
-}
-
-//// Build steps ---------------------------------------------------------------
-
-void ProjectSettings::addPreBuildStep(const char* config, const char* action)
-{
-    mConfigs[config].addPreBuildStep(action);
-}
-
-void ProjectSettings::addPostBuildStep(const char* config, const char* action)
-{
-    mConfigs[config].addPostBuildStep(action);
-}
-
-void ProjectSettings::removePreBuildStep(const char* config, const char* action)
-{
-    mConfigs[config].removePreBuildStep(action);
-}
-
-void ProjectSettings::removePostBuildStep(const char* config, const char* action)
-{
-    mConfigs[config].removePostBuildStep(action);
-}
-
-void ProjectSettings::clearPreBuildSteps(const char* config)
-{
-    mConfigs[config].clearPreBuildSteps();
-}
-
-void ProjectSettings::clearPostBuildSteps(const char* config)
-{
-    mConfigs[config].clearPostBuildSteps();
-}
-
-//// Tools options -------------------------------------------------------------
-
-void ProjectSettings::addCompilerOption(const char* config, const char* option)
-{
-    mConfigs[config].addCompilerOption(option);
-}
-
-void ProjectSettings::addLinkerOption(const char* config, const char* option)
-{
-    mConfigs[config].addLinkerOption(option);
-}
-
-void ProjectSettings::addArchiverOption(const char* config, const char* option)
-{
-    mConfigs[config].addArchiverOption(option);
-}
-
-//// Custom files compiler options ---------------------------------------------
-
-void ProjectSettings::addFileOptionAdded(const char* config, const char* file, const char* option)
-{
-    mConfigs[config].addFileOptionAdded(file, option);
-}
-
-void ProjectSettings::addFileOptionRemoved(const char* config, const char* file, const char* option)
-{
-    mConfigs[config].addFileOptionRemoved(file, option);
-}
-
-//// Files linking order -------------------------------------------------------
-
-void ProjectSettings::addFileLinkOrder(const char* config, const char* file, uint order)
-{
-    mConfigs[config].addFileLinkOrder(file, order);
 }
