@@ -88,7 +88,7 @@ public:
 
     stringset       configs() const;
     ConfigSettings  configSettings(const std::string& config) const;
-    ConfigSettings& configSettingsRef(const std::string& config);
+    ConfigSettings& config(const std::string& config);
 
     void addConfig(const std::string& config);
     void removeConfig(const std::string& config);

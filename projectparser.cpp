@@ -324,14 +324,14 @@ bool ProjectParser::parseConfigSettings(const std::string& key, const std::strin
 
     if (strcasecmp(key.c_str(), "InitialBuildCmd") == 0)
     {
-        mProjectSettings.configSettingsRef(mCurrentConfig).preBuildStepsRef().add(value);
+        mProjectSettings.config(mCurrentConfig).preBuildStepsRef().add(value);
     }
 
     //// Post build step =======================================================
 
     else if (strcasecmp(key.c_str(), "FinalBuildCmd") == 0)
     {
-        mProjectSettings.configSettingsRef(mCurrentConfig).postBuildStepsRef().add(value);
+        mProjectSettings.config(mCurrentConfig).postBuildStepsRef().add(value);
     }
 
     //// Unknown ===============================================================
@@ -360,15 +360,15 @@ bool ProjectParser::parseToolSettings(const std::string& key, const std::string&
         {
             if (strcasecmp(mCurrentTool.c_str(), "Compiler") == 0)
             {
-                mProjectSettings.configSettingsRef(mCurrentConfig).addCompilerOption(option.c_str());
+                mProjectSettings.config(mCurrentConfig).addCompilerOption(option.c_str());
             }
             else if (strcasecmp(mCurrentTool.c_str(), "Linker") == 0)
             {
-                mProjectSettings.configSettingsRef(mCurrentConfig).addLinkerOption(option.c_str());
+                mProjectSettings.config(mCurrentConfig).addLinkerOption(option.c_str());
             }
             else if (strcasecmp(mCurrentTool.c_str(), "Archiver") == 0)
             {
-                mProjectSettings.configSettingsRef(mCurrentConfig).addArchiverOption(option.c_str());
+                mProjectSettings.config(mCurrentConfig).addArchiverOption(option.c_str());
             }
             else
             {
@@ -408,7 +408,7 @@ bool ProjectParser::parseSourceSettings(const std::string& key, const std::strin
             {
                 for (const std::string& option : split(opt_add, ' '))
                 {
-                    mProjectSettings.configSettingsRef(mCurrentConfig).addFileOptionAdded(
+                    mProjectSettings.config(mCurrentConfig).addFileOptionAdded(
                                 mCurrentFile.c_str(),
                                 option.c_str());
                 }
@@ -420,7 +420,7 @@ bool ProjectParser::parseSourceSettings(const std::string& key, const std::strin
             {
                 for (const std::string& option : split(opt_del, ' '))
                 {
-                    mProjectSettings.configSettingsRef(mCurrentConfig).addFileOptionRemoved(
+                    mProjectSettings.config(mCurrentConfig).addFileOptionRemoved(
                                 mCurrentFile.c_str(),
                                 option.c_str());
                 }
@@ -465,7 +465,7 @@ bool ProjectParser::parseSourceSettings(const std::string& key, const std::strin
             return false;
         }
 
-        mProjectSettings.configSettingsRef(mCurrentConfig).addFileLinkOrder(
+        mProjectSettings.config(mCurrentConfig).addFileLinkOrder(
                     mCurrentFile.c_str(),
                     order);
     }

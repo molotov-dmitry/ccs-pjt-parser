@@ -226,7 +226,7 @@ ConfigSettings ProjectSettings::configSettings(const std::string& config) const
     }
 }
 
-ConfigSettings& ProjectSettings::configSettingsRef(const std::string& config)
+ConfigSettings& ProjectSettings::config(const std::string& config)
 {
     return mConfigs[config];
 }
