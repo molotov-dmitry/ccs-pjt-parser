@@ -464,6 +464,70 @@ bool ProjectParser::parseSourceSettings(const std::string& key, const std::strin
         mProjectSettings.config(mCurrentConfig).file(mCurrentFile).setLinkOrder(order);
     }
 
+    //// Run condition =========================================================
+
+    else if (strcasecmp(key.c_str(), "Run") == 0)
+    {
+        bool found = false;
+
+        for (int i = 0; i < BuildStep::BUILD_CONDITION_COUNT; ++i)
+        {
+            if (BuildStep::buildConditionString(i, true) == value)
+            {
+                found = true;
+                mProjectSettings.config(mCurrentConfig).file(mCurrentFile).setBuildCondition(i);
+                break;
+            }
+        }
+
+        if (not found)
+        {
+            mLastError = string_format("Wrong run condition value '%s' for file '%s' in configuration '%s'",
+                                       value.c_str(),
+                                       mCurrentFile.c_str(),
+                                       mCurrentConfig.c_str());
+            return false;
+        }
+    }
+
+    //// Pre build step ========================================================
+
+    else if (strcasecmp(key.c_str(), "PreBuildCmd") == 0)
+    {
+        mProjectSettings.config(mCurrentConfig).file(mCurrentFile).preBuildSteps().add(BuildStep::fromString(value));
+    }
+
+    //// Post build step =======================================================
+
+    else if (strcasecmp(key.c_str(), "PostBuildCmd") == 0)
+    {
+        mProjectSettings.config(mCurrentConfig).file(mCurrentFile).postBuildSteps().add(BuildStep::fromString(value));
+    }
+
+    //// Exclude from build ====================================================
+
+    else if (strcasecmp(key.c_str(), "ExcludeFromBuild") == 0)
+    {
+        if (strcasecmp(value.c_str(), "true") == 0)
+        {
+            mProjectSettings.config(mCurrentConfig).file(mCurrentFile).setExcludeFromBuild(true);
+        }
+        else if (strcasecmp(value.c_str(), "false") == 0)
+        {
+            mProjectSettings.config(mCurrentConfig).file(mCurrentFile).setExcludeFromBuild(false);
+        }
+        else
+        {
+            mLastError = string_format("Wrong exclude from build value '%s' for file '%s' in configuration '%s'",
+                                       value.c_str(),
+                                       mCurrentFile.c_str(),
+                                       mCurrentConfig.c_str());
+            return false;
+        }
+
+
+    }
+
     //// Unknown ===============================================================
 
     else
