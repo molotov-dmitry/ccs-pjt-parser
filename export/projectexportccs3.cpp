@@ -149,60 +149,80 @@ bool ProjectExportCcs3::writeData(const ProjectSettings &settings, std::ostream 
 
     for (const std::string& configName : settings.configs())
     {
-        ConfigSettings config = settings.configSettings(configName);
+        std::set<std::string> allSources;
 
-        std::set<std::string> optionsAddedKeys = keys(config.fileOptionsAdded());
-        std::set<std::string> optionsRemovedKeys = keys(config.fileOptionsRemoved());
+        allSources.insert(settings.c_sources().begin(), settings.c_sources().end());
+        allSources.insert(settings.c_libraries().begin(), settings.c_libraries().end());
+        allSources.insert(settings.c_commands().begin(), settings.c_commands().end());
 
-        std::set<std::string> sources;
-        sources.insert(optionsAddedKeys.begin(),   optionsAddedKeys.end());
-        sources.insert(optionsRemovedKeys.begin(), optionsRemovedKeys.end());
-
-        for (const std::string& source : sources)
+        for (const std::string& source : allSources)
         {
-            std::list<std::string> compilerOptions;
-            compilerOptions.push_back("\"Compiler\"");
-
-            stringsetmap optionsAdded = config.fileOptionsAdded();
-            stringsetmap optionsRemoved = config.fileOptionsRemoved();
-
-            if (optionsAdded.find(source) != optionsAdded.end())
+            FileOptions option = settings.configSettings(configName).fileOptions(source);
+            if (not option.isDefault())
             {
-                std::set<std::string> added = optionsAdded.at(source);
+                out << "[\"" << source << "\" Settings: \"" << configName << "\"]" << std::endl;
 
-                compilerOptions.push_back("+{" + join(added, ' ') + "}");
+                //// Compiler options ------------------------------------------
+
+                stringset added   = option.optionsAdded();
+                stringset removed = option.optionsRemoved();
+
+                if (not added.empty() || not removed.empty())
+                {
+                    std::list<std::string> compilerOptions;
+                    compilerOptions.push_back("\"Compiler\"");
+
+                    if (not added.empty())
+                    {
+                        compilerOptions.push_back("+{" + join(added, ' ') + "}");
+                    }
+
+                    if (not removed.empty())
+                    {
+                        compilerOptions.push_back("-{" + join(removed, ' ') + "}");
+                    }
+
+                    writeConfig(out, "Options", join(compilerOptions, ' '), false);
+                }
+
+                //// Link Order ------------------------------------------------
+
+                if (option.linkOrder() >= 0)
+                {
+                    std::string order = string_format("%d", option.linkOrder());
+                    writeConfig(out, "LinkOrder", order, false);
+                }
+
+                //// Exclude from build ----------------------------------------
+
+                if (option.isExcludedFromBuild())
+                {
+                    writeConfig(out, "ExcludeFromBuild", "true", false);
+                }
+
+                //// Run condition ---------------------------------------------
+
+                if (option.buildCondition() != BuildStep::IF_ANY_FILE_BUILDS)
+                {
+                    writeConfig(out, "Run", BuildStep::buildConditionString(option.buildCondition(), true));
+                }
+
+                //// Build commands --------------------------------------------
+
+                for (const BuildStep& step : option.preBuildSteps().get())
+                {
+                    writeConfig(out, "PreBuildCmd", step.toString(), false);
+                }
+
+                for (const BuildStep& step : option.postBuildSteps().get())
+                {
+                    writeConfig(out, "PostBuildCmd", step.toString(), false);
+                }
+
+                //// -----------------------------------------------------------
+
+                out << std::endl;
             }
-
-            if (optionsRemoved.find(source) != optionsRemoved.end())
-            {
-                std::set<std::string> removed = optionsRemoved.at(source);
-
-                compilerOptions.push_back("-{" + join(removed, ' ') + "}");
-            }
-
-            out << "[\"" << source << "\" Settings: \"" << configName << "\"]" << std::endl;
-            writeConfig(out, "Options", join(compilerOptions, ' '), false);
-
-            out << std::endl;
-        }
-    }
-
-    //// Linker options ========================================================
-
-    for (const std::string& configName : settings.configs())
-    {
-        ConfigSettings config = settings.configSettings(configName);
-        std::map<std::string, uint> linkOrder = config.fileLinkOrder();
-
-        for (auto it = linkOrder.begin(); it != linkOrder.end(); ++it)
-        {
-            const std::string& source = it->first;
-            std::string order = string_format("%u", it->second);
-
-            out << "[\"" << source << "\" Settings: \"" << configName << "\"]" << std::endl;
-            writeConfig(out, "LinkOrder", order, false);
-
-            out << std::endl;
         }
     }
 

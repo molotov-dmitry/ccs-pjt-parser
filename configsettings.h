@@ -6,6 +6,7 @@
 #include <list>
 
 #include "buildsteplist.h"
+#include "fileoptions.h"
 
 typedef std::set<std::string> stringset;
 typedef std::list<std::string> stringlist;
@@ -82,31 +83,8 @@ public:
 
     //// Custom files compiler options =========================================
 
-    stringsetmap fileOptionsAdded() const;
-    stringsetmap fileOptionsRemoved() const;
-
-    void addFileOptionAdded(const char* file, const char* option);
-    void addFileOptionRemoved(const char* file, const char* option);
-
-    void addFileOptionsAdded(const char* file, stringlist& options);
-    void addFileOptionsRemoved(const char* file, stringlist& options);
-
-    void removeFileOptionAdded(const char* file, const char* option);
-    void removeFileOptionRemoved(const char* file, const char* option);
-
-    void clearFileOptionAdded(const char* file);
-    void clearFileOptionRemoved(const char* file);
-
-    void clearFileOptionAdded();
-    void clearFileOptionRemoved();
-
-    //// Files linking order ===================================================
-
-    std::map<std::string, uint> fileLinkOrder() const;
-
-    void addFileLinkOrder(const char* file, uint order);
-
-    void removeFileLinkOrder(const char* file);
+    FileOptions fileOptions(const std::string& file);
+    FileOptions& file(const std::string& file);
 
     void clearFileLinkOrder();
 
@@ -123,10 +101,8 @@ private:
     stringlist mLinkerOptions;
     stringlist mArchiverOptions;
 
-    stringsetmap mFileOptionsAdded;
-    stringsetmap mFileOptionsRemoved;
+    std::map<std::string, FileOptions> mFileOptions;
 
-    std::map<std::string, uint> mFileLinkOrder;
 };
 
 #endif // CONFIGSETTINGS_H

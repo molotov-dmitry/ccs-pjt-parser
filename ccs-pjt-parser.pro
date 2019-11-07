@@ -14,7 +14,8 @@ SOURCES += main.cpp \
     export/abstractprojectexport.cpp \
     export/projectexportccs3.cpp \
     buildstep.cpp \
-    buildsteplist.cpp
+    buildsteplist.cpp \
+    fileoptions.cpp
 
 HEADERS += \
     projectparser.h \
@@ -25,4 +26,5 @@ HEADERS += \
     export/abstractprojectexport.h \
     export/projectexportccs3.h \
     buildstep.h \
-    buildsteplist.h
+    buildsteplist.h \
+    fileoptions.h

@@ -16,7 +16,7 @@ std::list<BuildStep> ConfigSettings::preBuildSteps() const
     return mPreBuildSteps.get();
 }
 
-BuildStepList&ConfigSettings::preBuildStepsRef()
+BuildStepList& ConfigSettings::preBuildStepsRef()
 {
     return mPreBuildSteps;
 }
@@ -26,7 +26,7 @@ std::list<BuildStep> ConfigSettings::postBuildSteps() const
     return mPostBuildSteps.get();
 }
 
-BuildStepList&ConfigSettings::postBuildStepsRef()
+BuildStepList& ConfigSettings::postBuildStepsRef()
 {
     return mPostBuildSteps;
 }
@@ -217,97 +217,29 @@ void ConfigSettings::clearArchiverOptions()
 
 //// Custom files compiler options =============================================
 
-stringsetmap ConfigSettings::fileOptionsAdded() const
+FileOptions ConfigSettings::fileOptions(const std::string& file)
 {
-    return mFileOptionsAdded;
+    if (mFileOptions.find(file) != mFileOptions.end())
+    {
+        return mFileOptions.at(file);
+    }
+    else
+    {
+        return FileOptions();
+    }
 }
 
-stringsetmap ConfigSettings::fileOptionsRemoved() const
+FileOptions&ConfigSettings::file(const std::string& file)
 {
-    return mFileOptionsRemoved;
-}
-
-void ConfigSettings::addFileOptionAdded(const char* file, const char* option)
-{
-    stringset& opt = mFileOptionsAdded[file];
-
-    opt.insert(option);
-}
-
-void ConfigSettings::addFileOptionRemoved(const char* file, const char* option)
-{
-    stringset& opt = mFileOptionsRemoved[file];
-
-    opt.insert(option);
-}
-
-void ConfigSettings::addFileOptionsAdded(const char* file, stringlist& options)
-{
-    stringset& opt = mFileOptionsAdded[file];
-
-    opt.insert(options.begin(), options.end());
-}
-
-void ConfigSettings::addFileOptionsRemoved(const char* file, stringlist& options)
-{
-    stringset& opt = mFileOptionsRemoved[file];
-
-    opt.insert(options.begin(), options.end());
-}
-
-void ConfigSettings::removeFileOptionAdded(const char* file, const char* option)
-{
-    stringset& opt = mFileOptionsAdded[file];
-
-    opt.erase(option);
-}
-
-void ConfigSettings::removeFileOptionRemoved(const char* file, const char* option)
-{
-    stringset& opt = mFileOptionsRemoved[file];
-
-    opt.erase(option);
-}
-
-void ConfigSettings::clearFileOptionAdded(const char* file)
-{
-    mFileOptionsAdded.erase(file);
-}
-
-void ConfigSettings::clearFileOptionRemoved(const char* file)
-{
-    mFileOptionsRemoved.erase(file);
-}
-
-void ConfigSettings::clearFileOptionAdded()
-{
-    mFileOptionsAdded.clear();
-}
-
-void ConfigSettings::clearFileOptionRemoved()
-{
-    mFileOptionsRemoved.clear();
-}
-
-//// Files linking order =======================================================
-
-std::map<std::string, uint> ConfigSettings::fileLinkOrder() const
-{
-    return mFileLinkOrder;
-}
-
-void ConfigSettings::addFileLinkOrder(const char* file, uint order)
-{
-    mFileLinkOrder[file] = order;
-}
-
-void ConfigSettings::removeFileLinkOrder(const char* file)
-{
-    mFileLinkOrder.erase(file);
+    return mFileOptions[file];
 }
 
 void ConfigSettings::clearFileLinkOrder()
 {
-    mFileLinkOrder.clear();
+    for (auto& file : mFileOptions)
+    {
+        file.second.removeLinkOrder();
+    }
 }
+
 

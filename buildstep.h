@@ -10,6 +10,7 @@ public:
     {
         IF_ANY_FILE_BUILDS,
         ALWAYS,
+        NEVER,
 
         BUILD_CONDITION_COUNT
     };
@@ -26,6 +27,8 @@ public:
 
     static BuildStep fromString(std::string command);
     std::string toString() const;
+
+    static std::string buildConditionString(int condition, bool file);
 
 private:
 

@@ -7,6 +7,8 @@
 #include <map>
 #include <stdarg.h>
 
+#include "fileoptions.h"
+
 std::string string_format(const char* format, ...);
 
 bool starts_with(const std::string& str, const std::string& start, bool case_sensitive = true);
@@ -19,6 +21,7 @@ bool remove_quotes(std::string& str);
 
 std::set<std::string> keys(const std::map< std::string, std::set<std::string> >& map);
 std::set<std::string> keys(const std::map< std::string, std::list<std::string> >& map);
+std::set<std::string> keys(const std::map< std::string,  FileOptions>& map);
 
 std::string join(const std::list<std::string>& list, char sep);
 std::string join(const std::set<std::string>& list, char sep);

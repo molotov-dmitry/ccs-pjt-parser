@@ -408,9 +408,7 @@ bool ProjectParser::parseSourceSettings(const std::string& key, const std::strin
             {
                 for (const std::string& option : split(opt_add, ' '))
                 {
-                    mProjectSettings.config(mCurrentConfig).addFileOptionAdded(
-                                mCurrentFile.c_str(),
-                                option.c_str());
+                    mProjectSettings.config(mCurrentConfig).file(mCurrentFile).addOptionAdded(option);
                 }
             }
 
@@ -420,9 +418,7 @@ bool ProjectParser::parseSourceSettings(const std::string& key, const std::strin
             {
                 for (const std::string& option : split(opt_del, ' '))
                 {
-                    mProjectSettings.config(mCurrentConfig).addFileOptionRemoved(
-                                mCurrentFile.c_str(),
-                                option.c_str());
+                    mProjectSettings.config(mCurrentConfig).file(mCurrentFile).addOptionRemoved(option);
                 }
             }
         }
@@ -465,9 +461,7 @@ bool ProjectParser::parseSourceSettings(const std::string& key, const std::strin
             return false;
         }
 
-        mProjectSettings.config(mCurrentConfig).addFileLinkOrder(
-                    mCurrentFile.c_str(),
-                    order);
+        mProjectSettings.config(mCurrentConfig).file(mCurrentFile).setLinkOrder(order);
     }
 
     //// Unknown ===============================================================

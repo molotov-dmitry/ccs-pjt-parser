@@ -125,6 +125,18 @@ std::set<std::string> keys(const std::map<std::string, std::list<std::string> > 
     return result;
 }
 
+std::set<std::string> keys(const std::map<std::string, FileOptions>& map)
+{
+    std::set<std::string> result;
+
+    for (auto it = map.begin(); it != map.end(); ++it)
+    {
+        result.insert(it->first);
+    }
+
+    return result;
+}
+
 std::string join(const std::list<std::string> &list, char sep)
 {
     size_t listsize = 0;
