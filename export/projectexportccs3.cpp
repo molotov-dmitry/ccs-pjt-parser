@@ -198,7 +198,8 @@ bool ProjectExportCcs3::writeData(const ProjectSettings &settings, std::ostream 
 
                 if (option.buildCondition() != BuildStep::IF_ANY_FILE_BUILDS)
                 {
-                    writeConfig(out, "Run", BuildStep::buildConditionString(option.buildCondition(), false));
+                    std::string buildConditionStr = BuildStep::buildConditionString(option.buildCondition(), true);
+                    writeConfig(out, "Run", buildConditionStr, false);
                 }
 
                 //// Build commands --------------------------------------------
