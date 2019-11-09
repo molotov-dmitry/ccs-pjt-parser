@@ -3,7 +3,7 @@
 
 #include <list>
 
-#include <buildstep.h>
+#include "buildstep.h"
 
 class BuildStepList
 {
