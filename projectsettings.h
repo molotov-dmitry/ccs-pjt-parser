@@ -72,6 +72,8 @@ public:
 
     //// Source list ===========================================================
 
+    stringset   files() const;
+
     stringset   sources() const;
     cstringset& c_sources() const;
 

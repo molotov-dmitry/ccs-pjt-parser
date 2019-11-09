@@ -147,6 +147,17 @@ void ProjectSettings::clearTools()
 
 //// Source list ===============================================================
 
+stringset ProjectSettings::files() const
+{
+    std::set<std::string> allSources;
+
+    allSources.insert(mSources.begin(),   mSources.end());
+    allSources.insert(mLibraries.begin(), mLibraries.end());
+    allSources.insert(mCommands.begin(),  mCommands.end());
+
+    return allSources;
+}
+
 stringset ProjectSettings::sources() const
 {
     return mSources;

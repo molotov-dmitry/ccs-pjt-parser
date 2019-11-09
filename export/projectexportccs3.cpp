@@ -149,13 +149,7 @@ bool ProjectExportCcs3::writeData(const ProjectSettings &settings, std::ostream 
 
     for (const std::string& configName : settings.configs())
     {
-        std::set<std::string> allSources;
-
-        allSources.insert(settings.c_sources().begin(), settings.c_sources().end());
-        allSources.insert(settings.c_libraries().begin(), settings.c_libraries().end());
-        allSources.insert(settings.c_commands().begin(), settings.c_commands().end());
-
-        for (const std::string& source : allSources)
+        for (const std::string& source : settings.files())
         {
             FileOptions option = settings.configSettings(configName).fileOptions(source);
             if (not option.isDefault())
