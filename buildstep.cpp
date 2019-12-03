@@ -91,6 +91,8 @@ std::string BuildStep::buildConditionString(int condition, bool file)
     case BUILD_CONDITION_COUNT:
         return std::string();
     }
+
+    return std::string();
 }
 
 BuildStep::operator std::pair<std::string, int>() const
