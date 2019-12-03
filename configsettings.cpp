@@ -173,6 +173,11 @@ void ConfigSettings::addLinkerOption(const char* option)
     mLinkerOptions.push_back(option);
 }
 
+void ConfigSettings::addLinkerOption(const std::string& flag, const std::string& value, bool quote)
+{
+    mLinkerOptions.push_back(to_option(flag, value, quote));
+}
+
 void ConfigSettings::addLinkerOptions(stringlist& options)
 {
     mLinkerOptions.splice(mLinkerOptions.end(), options);

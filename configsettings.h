@@ -64,6 +64,7 @@ public:
     stringlist linkerOptions() const;
 
     void addLinkerOption(const char* option);
+    void addLinkerOption(const std::string& flag, const std::string& value, bool quote);
     void addLinkerOptions(stringlist& options);
 
     void removeLinkerOption(const char* option);
