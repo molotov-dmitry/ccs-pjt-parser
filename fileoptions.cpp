@@ -8,9 +8,9 @@ FileOptions::FileOptions() :
 
 }
 
-bool FileOptions::isDefault()
+bool FileOptions::isDefault(bool considerLinkOrder)
 {
-    if (mLinkOrder >= 0)
+    if (considerLinkOrder && mLinkOrder >= 0)
     {
         return false;
     }

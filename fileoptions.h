@@ -10,7 +10,7 @@ class FileOptions
 {
 public:
     FileOptions();
-    bool isDefault();
+    bool isDefault(bool considerLinkOrder = true);
 
     int linkOrder() const;
     void setLinkOrder(unsigned int linkOrder);
