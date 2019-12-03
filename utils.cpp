@@ -234,3 +234,25 @@ bool between(const std::string& str, const char* from, const char* to, std::stri
 
     return false;
 }
+
+std::string to_option(const std::string& flag, const std::string& value, bool quote)
+{
+    std::string option;
+    option.reserve(flag.length() + value.length() + 2);
+
+    option.append(flag);
+
+    if (quote)
+    {
+        option.append("\"");
+    }
+
+    option.append(value);
+
+    if (quote)
+    {
+        option.append("\"");
+    }
+
+    return option;
+}
