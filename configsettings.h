@@ -21,6 +21,11 @@ class ConfigSettings
 public:
 
     ConfigSettings();
+    ConfigSettings(const ConfigSettings& other);
+
+    ConfigSettings& operator=(const ConfigSettings& other);
+    bool operator==(const ConfigSettings& other) const;
+    bool operator!=(const ConfigSettings& other) const;
 
     //// Build steps ===========================================================
 

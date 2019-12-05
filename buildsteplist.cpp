@@ -5,6 +5,29 @@ BuildStepList::BuildStepList()
 
 }
 
+BuildStepList::BuildStepList(const BuildStepList& other) :
+    mBuildStepList(other.mBuildStepList)
+{
+
+}
+
+BuildStepList& BuildStepList::operator=(const BuildStepList& other)
+{
+    this->mBuildStepList = other.mBuildStepList;
+
+    return *this;
+}
+
+bool BuildStepList::operator==(const BuildStepList& other) const
+{
+    return (this->mBuildStepList == other.mBuildStepList);
+}
+
+bool BuildStepList::operator!=(const BuildStepList& other) const
+{
+    return !(*this == other);
+}
+
 BuildStepList::operator std::list<BuildStep>() const
 {
     return mBuildStepList;

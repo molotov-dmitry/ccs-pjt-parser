@@ -15,16 +15,35 @@ BuildStep::BuildStep() : mCondition(IF_ANY_FILE_BUILDS)
 
 }
 
-BuildStep::BuildStep(const std::string &command, BuildCondition condition) :
+BuildStep::BuildStep(const BuildStep& other) :
+    mCommand(other.mCommand), mCondition(other.mCondition)
+{
+
+}
+
+BuildStep::BuildStep(const std::string& command, BuildCondition condition) :
     mCommand(command), mCondition(condition)
 {
 
+}
+
+BuildStep& BuildStep::operator=(const BuildStep& other)
+{
+    this->mCommand = other.mCommand;
+    this->mCondition = other.mCondition;
+
+    return *this;
 }
 
 bool BuildStep::operator==(const BuildStep& other) const
 {
     return (this->mCommand == other.mCommand &&
             this->mCondition == other.mCondition);
+}
+
+bool BuildStep::operator!=(const BuildStep& other) const
+{
+    return !(*this == other);
 }
 
 std::string BuildStep::command() const

@@ -37,6 +37,11 @@ public:
 public:
 
     ProjectSettings();
+    ProjectSettings(const ProjectSettings& other);
+
+    ProjectSettings& operator=(const ProjectSettings& other);
+    bool operator==(const ProjectSettings& other) const;
+    bool operator!=(const ProjectSettings& other) const;
 
     void        clear();
 

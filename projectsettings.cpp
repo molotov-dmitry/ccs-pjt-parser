@@ -9,13 +9,105 @@ ProjectSettings::ProjectSettings() : mType(Type::UNKNOWN), mToolFlags(0x00000000
 
 }
 
+ProjectSettings::ProjectSettings(const ProjectSettings& other) :
+    mType(other.mType),
+    mCpuFamily(other.mCpuFamily),
+    mProjectDir(other.mProjectDir),
+    mToolFlags(other.mToolFlags),
+    mConfigs(other.mConfigs),
+    mTools(other.mTools),
+    mSources(other.mSources),
+    mCommands(other.mCommands),
+    mLibraries(other.mLibraries)
+{
+
+}
+
+ProjectSettings&ProjectSettings::operator=(const ProjectSettings& other)
+{
+    this->mType       = other.mType;
+
+    this->mCpuFamily  = other.mCpuFamily;
+    this->mProjectDir = other.mProjectDir;
+
+    this->mToolFlags  = other.mToolFlags;
+
+    this->mConfigs    = other.mConfigs;
+
+    this->mTools      = other.mTools;
+    this->mSources    = other.mSources;
+    this->mCommands   = other.mCommands;
+    this->mLibraries  = other.mLibraries;
+
+    return *this;
+}
+
+bool ProjectSettings::operator==(const ProjectSettings& other) const
+{
+    if (this->mType != other.mType)
+    {
+        return false;
+    }
+
+    if (this->mCpuFamily != other.mCpuFamily)
+    {
+        return false;
+    }
+
+    if (this->mProjectDir != other.mProjectDir)
+    {
+        return false;
+    }
+
+    if (this->mToolFlags != other.mToolFlags)
+    {
+        return false;
+    }
+
+    if (this->mConfigs != other.mConfigs)
+    {
+        return false;
+    }
+
+    if (this->mTools != other.mTools)
+    {
+        return false;
+    }
+
+    if (this->mSources != other.mSources)
+    {
+        return false;
+    }
+
+    if (this->mCommands != other.mCommands)
+    {
+        return false;
+    }
+
+    if (this->mLibraries != other.mLibraries)
+    {
+        return false;
+    }
+
+    return true;
+}
+
+bool ProjectSettings::operator!=(const ProjectSettings& other) const
+{
+    return !(*this == other);
+}
+
 void ProjectSettings::clear()
 {
     mType = Type::UNKNOWN;
 
+    mCpuFamily.clear();
+    mProjectDir.clear();
+
     mToolFlags = 0x00000000u;
 
     mConfigs.clear();
+
     mTools.clear();
     mSources.clear();
     mCommands.clear();

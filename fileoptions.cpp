@@ -8,6 +8,76 @@ FileOptions::FileOptions() :
 
 }
 
+FileOptions::FileOptions(const FileOptions& other) :
+    mLinkOrder(other.mLinkOrder),
+    mExcludeFromBuild(other.mExcludeFromBuild),
+    mBuildCondition(other.mBuildCondition),
+    mOptionsAdded(other.mOptionsAdded),
+    mOptionsRemoved(other.mOptionsRemoved),
+    mPreBuildSteps(other.mPreBuildSteps),
+    mPostBuildSteps(other.mPostBuildSteps)
+{
+
+}
+
+FileOptions& FileOptions::operator=(const FileOptions& other)
+{
+    this->mLinkOrder = other.mLinkOrder;
+    this->mExcludeFromBuild = other.mExcludeFromBuild;
+    this->mBuildCondition = other.mBuildCondition;
+    this->mOptionsAdded = other.mOptionsAdded;
+    this->mOptionsRemoved = other.mOptionsRemoved;
+    this->mPreBuildSteps = other.mPreBuildSteps;
+    this->mPostBuildSteps = other.mPostBuildSteps;
+
+    return *this;
+}
+
+bool FileOptions::operator==(const FileOptions& other) const
+{
+    if (mLinkOrder != other.mLinkOrder)
+    {
+        return false;
+    }
+
+    if (mExcludeFromBuild != other.mExcludeFromBuild)
+    {
+        return false;
+    }
+
+    if (mBuildCondition != other.mBuildCondition)
+    {
+        return false;
+    }
+
+    if (mOptionsAdded != other.mOptionsAdded)
+    {
+        return false;
+    }
+
+    if (mOptionsRemoved != other.mOptionsRemoved)
+    {
+        return false;
+    }
+
+    if (mPreBuildSteps != other.mPreBuildSteps)
+    {
+        return false;
+    }
+
+    if (mPostBuildSteps != other.mPostBuildSteps)
+    {
+        return false;
+    }
+
+    return true;
+}
+
+bool FileOptions::operator!=(const FileOptions& other) const
+{
+    return !(*this == other);
+}
+
 bool FileOptions::isDefault(bool considerLinkOrder)
 {
     if (considerLinkOrder && mLinkOrder >= 0)
@@ -118,7 +188,7 @@ BuildStepList FileOptions::preBuildSteps() const
     return mPreBuildSteps;
 }
 
-BuildStepList&FileOptions::preBuildSteps()
+BuildStepList& FileOptions::preBuildSteps()
 {
     return mPreBuildSteps;
 }
@@ -128,7 +198,7 @@ BuildStepList FileOptions::postBuildSteps() const
     return mPostBuildSteps;
 }
 
-BuildStepList&FileOptions::postBuildSteps()
+BuildStepList& FileOptions::postBuildSteps()
 {
     return mPostBuildSteps;
 }

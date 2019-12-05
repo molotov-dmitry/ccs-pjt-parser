@@ -17,10 +17,14 @@ public:
 
 public:
     BuildStep();
+    BuildStep(const BuildStep& other);
     BuildStep(const std::string& command, BuildCondition condition);
+
+    BuildStep& operator=(const BuildStep& other);
 
     operator std::pair<std::string, int>() const;
     bool operator==(const BuildStep& other) const;
+    bool operator!=(const BuildStep& other) const;
 
     std::string command() const;
     int         condition() const;

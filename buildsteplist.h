@@ -9,6 +9,11 @@ class BuildStepList
 {
 public:
     BuildStepList();
+    BuildStepList(const BuildStepList& other);
+
+    BuildStepList& operator=(const BuildStepList& other);
+    bool operator==(const BuildStepList& other) const;
+    bool operator!=(const BuildStepList& other) const;
 
     operator std::list<BuildStep>() const;
     std::list<BuildStep> get() const;

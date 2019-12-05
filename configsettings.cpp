@@ -9,6 +9,90 @@ ConfigSettings::ConfigSettings()
 
 }
 
+ConfigSettings::ConfigSettings(const ConfigSettings& other) :
+    mPreBuildSteps(other.mPreBuildSteps),
+    mPostBuildSteps(other.mPostBuildSteps),
+    mDefines(other.mDefines),
+    mUndefines(other.mUndefines),
+    mIncludePaths(other.mIncludePaths),
+    mCompilerOptions(other.mCompilerOptions),
+    mLinkerOptions(other.mLinkerOptions),
+    mArchiverOptions(other.mArchiverOptions),
+    mFileOptions(other.mFileOptions)
+{
+
+}
+
+ConfigSettings&ConfigSettings::operator=(const ConfigSettings& other)
+{
+    this->mPreBuildSteps = other.mPreBuildSteps;
+    this->mPostBuildSteps = other.mPostBuildSteps;
+    this->mDefines = other.mDefines;
+    this->mUndefines = other.mUndefines;
+    this->mIncludePaths = other.mIncludePaths;
+    this->mCompilerOptions = other.mCompilerOptions;
+    this->mLinkerOptions = other.mLinkerOptions;
+    this->mArchiverOptions = other.mArchiverOptions;
+    this->mFileOptions = other.mFileOptions;
+
+    return *this;
+}
+
+bool ConfigSettings::operator==(const ConfigSettings& other) const
+{
+    if (this->mPreBuildSteps != other.mPreBuildSteps)
+    {
+        return false;
+    }
+
+    if (this->mPostBuildSteps != other.mPostBuildSteps)
+    {
+        return false;
+    }
+
+    if (this->mDefines != other.mDefines)
+    {
+        return false;
+    }
+
+    if (this->mUndefines != other.mUndefines)
+    {
+        return false;
+    }
+
+    if (this->mIncludePaths != other.mIncludePaths)
+    {
+        return false;
+    }
+
+    if (this->mCompilerOptions != other.mCompilerOptions)
+    {
+        return false;
+    }
+
+    if (this->mLinkerOptions != other.mLinkerOptions)
+    {
+        return false;
+    }
+
+    if (this->mArchiverOptions != other.mArchiverOptions)
+    {
+        return false;
+    }
+
+    if (this->mFileOptions != other.mFileOptions)
+    {
+        return false;
+    }
+
+    return true;
+}
+
+bool ConfigSettings::operator!=(const ConfigSettings& other) const
+{
+    return !(*this == other);
+}
+
 //// Build steps ===============================================================
 
 std::list<BuildStep> ConfigSettings::preBuildSteps() const

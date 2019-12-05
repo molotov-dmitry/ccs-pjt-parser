@@ -10,6 +10,12 @@ class FileOptions
 {
 public:
     FileOptions();
+    FileOptions(const FileOptions& other);
+
+    FileOptions& operator=(const FileOptions& other);
+    bool operator==(const FileOptions& other) const;
+    bool operator!=(const FileOptions& other) const;
+
     bool isDefault(bool considerLinkOrder = true);
 
     int linkOrder() const;
