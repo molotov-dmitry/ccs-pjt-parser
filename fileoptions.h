@@ -16,7 +16,7 @@ public:
     bool operator==(const FileOptions& other) const;
     bool operator!=(const FileOptions& other) const;
 
-    bool isDefault(bool considerLinkOrder = true);
+    bool isDefault(bool considerLinkOrder = true, bool considerExcludeFromBuild = true) const;
 
     int linkOrder() const;
     void setLinkOrder(unsigned int linkOrder);

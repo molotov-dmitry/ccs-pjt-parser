@@ -78,14 +78,14 @@ bool FileOptions::operator!=(const FileOptions& other) const
     return !(*this == other);
 }
 
-bool FileOptions::isDefault(bool considerLinkOrder)
+bool FileOptions::isDefault(bool considerLinkOrder, bool considerExcludeFromBuild) const
 {
     if (considerLinkOrder && mLinkOrder >= 0)
     {
         return false;
     }
 
-    if (mExcludeFromBuild)
+    if (considerExcludeFromBuild && mExcludeFromBuild)
     {
         return false;
     }
