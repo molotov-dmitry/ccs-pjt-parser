@@ -193,6 +193,11 @@ std::list<std::string> split(const std::string& str, char sep)
 {
     std::list<std::string> result;
 
+    if (str.empty())
+    {
+        return result;
+    }
+
     std::size_t pos = 0;
 
     while (pos != std::string::npos)
