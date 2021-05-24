@@ -98,7 +98,7 @@ bool ProjectReader::read(const char* path)
 
         int shift = -1;
 
-        while (nextLine[shift] == ' ' || nextLine[shift] == '\t' && lineLength > 0)
+        while ((nextLine[shift] == ' ' || nextLine[shift] == '\t') && lineLength > 0)
         {
             --lineLength;
             --shift;
