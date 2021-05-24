@@ -96,9 +96,12 @@ bool ProjectReader::read(const char* path)
         nextLine = strchrnul(currentLine, '\n');
         size_t lineLength = (size_t)(nextLine - currentLine);
 
-        while (nextLine[-1] == ' ' || nextLine[-1] == '\t')
+        int shift = -1;
+
+        while (nextLine[shift] == ' ' || nextLine[shift] == '\t' && lineLength > 0)
         {
             --lineLength;
+            --shift;
         }
 
         currentLine[lineLength] = '\0';
