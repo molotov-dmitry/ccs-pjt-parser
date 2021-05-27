@@ -37,4 +37,6 @@ std::string to_lower(std::string s);
 
 std::list<std::string> to_lower(const std::set<std::string>& s);
 
+std::string cp1251_to_unicode(std::string cp1251);
+
 #endif // UTILS_H
