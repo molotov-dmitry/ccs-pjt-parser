@@ -261,3 +261,39 @@ std::string to_option(const std::string& flag, const std::string& value, bool qu
 
     return option;
 }
+
+std::string to_upper(std::string s)
+{
+    size_t len = s.size();
+
+    for (size_t i = 0; i < len; ++i)
+    {
+        s[i] = (char)toupper(s[i]);
+    }
+
+    return s;
+}
+
+std::string to_lower(std::string s)
+{
+    size_t len = s.size();
+
+    for (size_t i = 0; i < len; ++i)
+    {
+        s[i] = (char)tolower(s[i]);
+    }
+
+    return s;
+}
+
+std::list<std::string> to_lower(const std::set<std::string>& s)
+{
+    std::list<std::string> result;
+
+    for (const std::string& str : s)
+    {
+        result.push_back(to_lower(str));
+    }
+
+    return result;
+}

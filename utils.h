@@ -32,4 +32,9 @@ bool between(const std::string& str, const char* from, const char* to, std::stri
 
 std::string to_option(const std::string& flag, const std::string& value, bool quote);
 
+std::string to_upper(std::string s);
+std::string to_lower(std::string s);
+
+std::list<std::string> to_lower(const std::set<std::string>& s);
+
 #endif // UTILS_H
