@@ -1,5 +1,6 @@
 ﻿#include "projectreader.h"
 #include "export/projectexportccs3.h"
+#include "export/projectexportmakefile.h"
 
 #include <iostream>
 
@@ -23,20 +24,41 @@ int main(int argc, char* argv[])
         return 2;
     }
 
+    ProjectSettings settings = reader.projectSettings();
+
     //// Print project =========================================================
 
-    const char* exportPath = nullptr;
+    const char* exportPathPjt = nullptr;
 
     if (argc > 2)
     {
-        exportPath = argv[2];
+        exportPathPjt = argv[2];
     }
 
     ProjectExportCcs3 writer;
 
-    if (not writer.write(reader.projectSettings(), exportPath))
+    if (not writer.write(settings, exportPathPjt))
     {
         std::cerr << writer.lastError() << std::endl;
+        return 3;
+    }
+
+    //// Print makefile ========================================================
+
+    const char* exportPathMakefile = nullptr;
+
+    if (argc > 3)
+    {
+        exportPathMakefile = argv[3];
+    }
+
+    ProjectExportMakefile writerMakefile;
+    writerMakefile.setTarget(argv[1]);
+    writerMakefile.setTabWidth(8);
+
+    if (not writerMakefile.write(settings, exportPathMakefile))
+    {
+        std::cerr << writerMakefile.lastError() << std::endl;
         return 3;
     }
 
