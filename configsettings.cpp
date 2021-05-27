@@ -306,7 +306,7 @@ void ConfigSettings::clearArchiverOptions()
 
 //// Custom files compiler options =============================================
 
-FileOptions ConfigSettings::fileOptions(const std::string& file)
+FileOptions ConfigSettings::fileOptions(const std::string& file) const
 {
     if (mFileOptions.find(file) != mFileOptions.end())
     {

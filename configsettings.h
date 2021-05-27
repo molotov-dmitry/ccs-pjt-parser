@@ -89,7 +89,7 @@ public:
 
     //// Custom files compiler options =========================================
 
-    FileOptions fileOptions(const std::string& file);
+    FileOptions fileOptions(const std::string& file) const;
     FileOptions& file(const std::string& file);
 
     void clearFileLinkOrder();
