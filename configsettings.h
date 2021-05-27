@@ -94,6 +94,12 @@ public:
 
     void clearFileLinkOrder();
 
+    //// Options getters =======================================================
+
+    std::string compilerOption(const std::string& key, const std::string& defaultValue = std::string()) const;
+    std::string linkerOption(const std::string& key, const std::string& defaultValue = std::string()) const;
+    std::string archiverOption(const std::string& key, const std::string& defaultValue = std::string()) const;
+
 private:
 
     BuildStepList mPreBuildSteps;
@@ -108,6 +114,8 @@ private:
     stringlist mArchiverOptions;
 
     std::map<std::string, FileOptions> mFileOptions;
+
+    std::string getOption(const stringlist& options, const std::string& key, const std::string& defaultValue) const;
 
 };
 

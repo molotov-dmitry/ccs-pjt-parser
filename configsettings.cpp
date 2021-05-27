@@ -331,4 +331,48 @@ void ConfigSettings::clearFileLinkOrder()
     }
 }
 
+std::string ConfigSettings::compilerOption(const std::string& key, const std::string& defaultValue) const
+{
+    return getOption(mCompilerOptions, key, defaultValue);
+}
+
+std::string ConfigSettings::linkerOption(const std::string& key, const std::string& defaultValue) const
+{
+    return getOption(mLinkerOptions, key, defaultValue);
+}
+
+std::string ConfigSettings::archiverOption(const std::string& key, const std::string& defaultValue) const
+{
+    return getOption(mArchiverOptions, key, defaultValue);
+}
+
+std::string ConfigSettings::getOption(const stringlist& options, const std::string& key, const std::string& defaultValue) const
+{
+    for (const std::string& option : options)
+    {
+        std::string value;
+
+        if (not starts_with(option, key, true))
+        {
+            continue;
+        }
+
+        std::string::size_type optionLen = key.length();
+        if ((option.length() > optionLen) && (option.at(optionLen) == '='))
+        {
+            value = option.data() + optionLen + 1;
+        }
+        else
+        {
+            value = option.data() + optionLen;
+        }
+
+        remove_quotes(value);
+
+        return value;
+    }
+
+    return defaultValue;
+}
+
 
