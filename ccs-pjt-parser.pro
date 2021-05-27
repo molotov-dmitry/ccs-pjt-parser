@@ -6,6 +6,7 @@ CONFIG -= qt
 CONFIG += c++11
 
 SOURCES += main.cpp \
+    export/projectexportmakefile.cpp \
     projectparser.cpp \
     projectsettings.cpp \
     utils.cpp \
@@ -18,6 +19,7 @@ SOURCES += main.cpp \
     fileoptions.cpp
 
 HEADERS += \
+    export/projectexportmakefile.h \
     projectparser.h \
     projectsettings.h \
     utils.h \
