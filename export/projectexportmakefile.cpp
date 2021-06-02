@@ -173,12 +173,34 @@ bool ProjectExportMakefile::writeData(const ProjectSettings& settings, std::ostr
 
     out << std::endl;
 
+    //// Phony targets =========================================================
+
+    stringlist phonyTargets;
+    phonyTargets.push_back("all");
+    phonyTargets.push_back("clean");
+    phonyTargets.push_back("check");
+
+    for (const std::string& configName : settings.configs())
+    {
+        phonyTargets.push_back(to_lower(configName));
+
+        if (tools & ProjectSettings::TOOL_COMPILER)
+        {
+            phonyTargets.push_back("obj_" + to_lower(configName));
+        }
+
+        phonyTargets.push_back("pre_" + to_lower(configName));
+        phonyTargets.push_back("post_" + to_lower(configName));
+        phonyTargets.push_back("check_" + to_lower(configName));
+    }
+
+    out << ".PHONY: " << join(phonyTargets, ' ') << std::endl;
+    out << std::endl;
+
     //// Main targets ==========================================================
 
     std::string configsTargets = join(to_lower(settings.configs()), ' ');
 
-    out << ".PHONY: all clean " << configsTargets << std::endl;
-    out << std::endl;
     out << "all: " << configsTargets << std::endl;
     out << std::endl;
     out << "clean:" << std::endl;
