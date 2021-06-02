@@ -113,7 +113,7 @@ void removeOption(stringlist& optionsList, const std::string& option, bool flag 
 bool ProjectExportMakefile::writeData(const ProjectSettings& settings, std::ostream& out)
 {
     writeConfig(out, "TARGET", mTarget);
-    out << std::endl;
+    writeConfig(out, "MAKEFILE", basename(getPath()));
     writeConfig(out, "Proj_dir", "$(CURDIR)");
     out << std::endl;
 
@@ -274,7 +274,7 @@ bool ProjectExportMakefile::writeData(const ProjectSettings& settings, std::ostr
         out << "pre_" << config_l << ": $(OBJDIR_" << config_u << ")/pre_build" << std::endl;
         out << std::endl;
 
-        out << string_format("$(OBJDIR_%s)/pre_build: $(MEM_%s) $(SOURCES) $(LIBS_%s) $(TARGET).mk",
+        out << string_format("$(OBJDIR_%s)/pre_build: $(MEM_%s) $(SOURCES) $(LIBS_%s) $(MAKEFILE)",
                              config_u.c_str(),
                              config_u.c_str(),
                              config_u.c_str()) << std::endl;
@@ -296,7 +296,7 @@ bool ProjectExportMakefile::writeData(const ProjectSettings& settings, std::ostr
         out << "post_" << config_l << ": $(OBJDIR_" << config_u << ")/post_build" << std::endl;
         out << std::endl;
 
-        out << string_format("$(OBJDIR_%s)/post_build: $(OUT_%s) $(TARGET).mk",
+        out << string_format("$(OBJDIR_%s)/post_build: $(OUT_%s) $(MAKEFILE)",
                              config_u.c_str(),
                              config_u.c_str()) << std::endl;
 
@@ -342,7 +342,7 @@ bool ProjectExportMakefile::writeData(const ProjectSettings& settings, std::ostr
 
                 compilerOptions.push_back("-fr $(OBJDIR_" + config_u + ")");
 
-                out << "$(OBJDIR_" << config_u << ")/" << object << ": " << source << " $(TARGET).mk" << std::endl;
+                out << "$(OBJDIR_" << config_u << ")/" << object << ": " << source << " $(MAKEFILE)" << std::endl;
                 out << "\t" << /*"cd $(dir " << source << ") && " <<*/ "$(CC) " << join(compilerOptions, ' ') << " $(IFLAGS_" << config_u << ") $(DFLAGS_" << config_u << ") " << source << std::endl;
                 out << std::endl;
             }
