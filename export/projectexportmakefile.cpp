@@ -86,6 +86,39 @@ std::string fixVariables(std::string s)
     return s;
 }
 
+void addVariables(stringset& variables, const stringlist& options)
+{
+    for (const std::string& option : options)
+    {
+        std::string variable;
+        bool inVariable = false;
+
+        for (char c : option)
+        {
+            if (c != '%')
+            {
+                if (inVariable)
+                {
+                    variable.append(&c, 1);
+                }
+            }
+            else
+            {
+                if (inVariable)
+                {
+                    variables.insert(variable);
+                }
+                else
+                {
+                    variable.clear();
+                }
+
+                inVariable = !inVariable;
+            }
+        }
+    }
+}
+
 void removeOption(stringlist& optionsList, const std::string& option, bool flag = true)
 {
     stringlist result;
@@ -372,9 +405,34 @@ bool ProjectExportMakefile::writeData(const ProjectSettings& settings, std::ostr
 
         //// Checks ------------------------------------------------------------
 
+        stringlist buildSteps;
+        for (const BuildStep& step : config.preBuildSteps()) //TODO: Add always build targets
+        {
+            buildSteps.push_back(step.command());
+        }
+        for (const BuildStep& step : config.postBuildSteps()) //TODO: Add always build targets
+        {
+            buildSteps.push_back(step.command());
+        }
+
+        std::set<std::string> variables;
+        addVariables(variables, config.includePaths());
+        addVariables(variables, config.defines());
+        addVariables(variables, config.undefines());
+        addVariables(variables, config.compilerOptions());
+        addVariables(variables, config.linkerOptions());
+        addVariables(variables, config.archiverOptions());
+        addVariables(variables, buildSteps);
+
         writeComment(out, 2, "Checks");
 
-        out << "check_" << config_l << ":" << std::endl;
+        out << "check_" << config_l << ": check" << std::endl;
+
+        for (const std::string& variable : variables)
+        {
+            out << "\t" << "@echo 'check " << variable << " variable' && test -n \"$(" << variable << ")\" > /dev/null" << std::endl;
+        }
+
         out << std::endl;
     }
 
