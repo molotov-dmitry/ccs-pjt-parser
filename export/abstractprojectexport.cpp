@@ -58,3 +58,8 @@ std::string AbstractProjectExport::lastError() const
 {
     return mLastError;
 }
+
+std::string AbstractProjectExport::getPath() const
+{
+    return mPath;
+}

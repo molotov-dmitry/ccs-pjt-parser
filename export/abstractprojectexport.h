@@ -15,6 +15,7 @@ public:
     bool write(const ProjectSettings& settings, const char* path = nullptr);
 
     std::string lastError() const;
+    std::string getPath() const;
 
 protected:
     std::string mLastError;
