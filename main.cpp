@@ -54,7 +54,6 @@ int main(int argc, char* argv[])
 
     ProjectExportMakefile writerMakefile;
     writerMakefile.setTarget(argv[1]);
-    writerMakefile.setTabWidth(8);
 
     if (not writerMakefile.write(settings, exportPathMakefile))
     {
