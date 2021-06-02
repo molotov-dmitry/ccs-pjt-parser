@@ -387,17 +387,17 @@ bool ProjectExportMakefile::writeData(const ProjectSettings& settings, std::ostr
 
     if (tools & ProjectSettings::TOOL_COMPILER)
     {
-        out << "\t" << "@echo 'check CC executable' && which $(CC) > /dev/null" << std::endl;
+        out << "\t" << "@echo 'check CC executable' && which $(firstword $(CC)) > /dev/null" << std::endl;
     }
 
     if (tools & ProjectSettings::TOOL_LINKER)
     {
-        out << "\t" << "@echo 'check LD executable' && which $(LD) > /dev/null" << std::endl;
+        out << "\t" << "@echo 'check LD executable' && which $(firstword $(LD)) > /dev/null" << std::endl;
     }
 
     if (tools & ProjectSettings::TOOL_ARCHIVER)
     {
-        out << "\t" << "@echo 'check AR executable' && which $(AR) > /dev/null" << std::endl;
+        out << "\t" << "@echo 'check AR executable' && which $(firstword $(AR)) > /dev/null" << std::endl;
     }
 
     out << std::endl;
