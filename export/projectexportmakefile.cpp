@@ -204,7 +204,7 @@ bool ProjectExportMakefile::writeData(const ProjectSettings& settings, std::ostr
     out << "all: " << configsTargets << std::endl;
     out << std::endl;
     out << "clean:" << std::endl;
-    out << "\t" << "rm -rf " << join(settings.configs(), ' ') << std::endl << std::endl;
+    out << "\t" << "rm -rf " << join(settings.configs(), ' ') << std::endl;
     out << std::endl;
 
     //// Configurations ========================================================
