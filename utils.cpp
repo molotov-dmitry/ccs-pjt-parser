@@ -355,3 +355,15 @@ std::string cp1251_to_unicode(std::string cp1251)
     return result;
 }
 
+
+std::string basename(const std::string& path)
+{
+    std::list<std::string> pathlist = split(path, '/');
+
+    if (pathlist.size() > 1)
+    {
+        return pathlist.back();
+    }
+
+    return path;
+}

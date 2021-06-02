@@ -39,4 +39,6 @@ std::list<std::string> to_lower(const std::set<std::string>& s);
 
 std::string cp1251_to_unicode(std::string cp1251);
 
+std::string basename(const std::string& path);
+
 #endif // UTILS_H

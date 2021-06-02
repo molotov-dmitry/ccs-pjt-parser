@@ -11,12 +11,7 @@ ProjectExportMakefile::ProjectExportMakefile() : mTabWidth(4)
 
 void ProjectExportMakefile::setTarget(std::string target)
 {
-    stringlist pathlist = split(target, '/');
-
-    if (pathlist.size() > 1)
-    {
-        target = pathlist.back();
-    }
+    target = basename(target);
 
     stringlist namelist = split(target, '.');
     if (namelist.size() > 1)
