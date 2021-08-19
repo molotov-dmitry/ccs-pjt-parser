@@ -16,6 +16,9 @@ bool ends_with(const std::string& str, const std::string& end, bool case_sensiti
 
 bool split_config_line(const std::string& line, std::string& key, std::string& val);
 
+std::string replace(std::string str, char from, char to);
+std::string fixpath(std::string str);
+
 bool in_quotes(const std::string& str);
 bool remove_quotes(std::string& str);
 

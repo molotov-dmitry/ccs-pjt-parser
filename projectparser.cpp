@@ -297,7 +297,7 @@ bool ProjectParser::parseSourceFile(const std::string& key, const std::string& v
 
     if (strcasecmp(key.c_str(), "Source") == 0)
     {
-        mProjectSettings.addSource(value.c_str());
+        mProjectSettings.addSource(fixpath(value).c_str());
     }
 
     //// Unknown ===============================================================

@@ -80,6 +80,26 @@ bool split_config_line(const std::string& line, std::string& key, std::string& v
     return true;
 }
 
+std::string replace(std::string str, char from, char to)
+{
+    size_t len = str.size();
+
+    for (size_t i = 0; i < len; ++i)
+    {
+        if (str[i] == from)
+        {
+            str[i] = to;
+        }
+    }
+
+    return str;
+}
+
+std::string fixpath(std::string str)
+{
+    return replace(str, '\\', '/');
+}
+
 bool in_quotes(const std::string& str)
 {
     if (str.length() >= 2 && starts_with(str, "\"") && ends_with(str, "\""))
