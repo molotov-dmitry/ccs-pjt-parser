@@ -67,7 +67,7 @@ bool split_config_line(const std::string& line, std::string& key, std::string& v
     if (pos == std::string::npos)
     {
         return false;
-    };
+    }
 
     key = line.substr(0, pos);
     val = line.substr(pos + 1);

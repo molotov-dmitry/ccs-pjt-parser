@@ -21,7 +21,7 @@ bool ProjectParser::parseLine(const char* line_c)
     else
     {
         return parseData(line);
-    };
+    }
 }
 
 void ProjectParser::clear()
@@ -307,7 +307,7 @@ bool ProjectParser::parseSourceFile(const std::string& key, const std::string& v
         mLastError = string_format("Unknown source file list key '%s'", key.c_str());
 
         return false;
-    };
+    }
 
     //// =======================================================================
 
@@ -341,7 +341,7 @@ bool ProjectParser::parseConfigSettings(const std::string& key, const std::strin
         mLastError = string_format("Unknown configuration key '%s'", key.c_str());
 
         return false;
-    };
+    }
 
     //// =======================================================================
 
@@ -385,7 +385,7 @@ bool ProjectParser::parseToolSettings(const std::string& key, const std::string&
         mLastError = string_format("Unknown tool configuration key '%s'", key.c_str());
 
         return false;
-    };
+    }
 
     //// =======================================================================
 
@@ -538,7 +538,7 @@ bool ProjectParser::parseSourceSettings(const std::string& key, const std::strin
                                    mCurrentConfig.c_str());
 
         return false;
-    };
+    }
 
     //// =======================================================================
 
