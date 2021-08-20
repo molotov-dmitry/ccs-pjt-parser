@@ -94,12 +94,12 @@ bool ProjectExportCcs3::writeData(const ProjectSettings &settings, std::ostream 
 
             for (const std::string& include : config.includePaths())
             {
-                options.push_back("-i\"" + include + "\"");
+                options.push_back(to_option("-i", include));
             }
 
             for (const std::string& define : config.defines())
             {
-                options.push_back("-d\"" + define + "\"");
+                options.push_back(to_option("-d", define));
             }
 
             for (const std::string& undefine : config.undefines())
@@ -127,12 +127,12 @@ bool ProjectExportCcs3::writeData(const ProjectSettings &settings, std::ostream 
 
             for (const std::string& libraryPath : config.libraryPaths())
             {
-                options.push_back("-i\"" + libraryPath + "\"");
+                options.push_back(to_option("-i", libraryPath));
             }
 
             for (const std::string& lib : config.libraries())
             {
-                options.push_back("-l\"" + lib + "\"");
+                options.push_back(to_option("-l", lib));
             }
 
             writeConfig(out, "Options", join(options, ' '), false);

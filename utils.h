@@ -35,7 +35,7 @@ std::list<std::string> split(const std::string& str, char sep);
 
 bool between(const std::string& str, const char* from, const char* to, std::string& res);
 
-std::string to_option(const std::string& flag, const std::string& value, bool quote);
+std::string to_option(const std::string& flag, const std::string& value, bool quote = true);
 
 std::string to_upper(std::string s);
 std::string to_lower(std::string s);
