@@ -349,14 +349,14 @@ void ConfigSettings::clearOtherLinkerOptions()
 
 //// Archiver options ==========================================================
 
-stringlist ConfigSettings::archiverOptions() const
+stringlist ConfigSettings::otherArchiverOptions() const
 {
-    return mArchiverOptions;
+    return mOtherArchiverOptions;
 }
 
 void ConfigSettings::addArchiverOption(const char* option)
 {
-    mArchiverOptions.push_back(option);
+    mOtherArchiverOptions.push_back(option);
 }
 
 void ConfigSettings::addArchiverOptions(const stringlist& options)
@@ -369,12 +369,35 @@ void ConfigSettings::addArchiverOptions(const stringlist& options)
 
 void ConfigSettings::removeArchiverOption(const char* option)
 {
-    mArchiverOptions.remove(option);
+    mOtherArchiverOptions.remove(option);
 }
 
 void ConfigSettings::clearArchiverOptions()
 {
-    mArchiverOptions.clear();
+    mOtherArchiverOptions.clear();
+}
+
+void ConfigSettings::addOtherArchiverOption(const std::string& option)
+{
+    mOtherArchiverOptions.push_back(option);
+}
+
+void ConfigSettings::addOtherArchiverOptions(const stringlist& options)
+{
+    for (const std::string& option : options)
+    {
+        addOtherArchiverOption(option);
+    }
+}
+
+void ConfigSettings::removeOtherArchiverOption(const std::string& option)
+{
+    mOtherArchiverOptions.remove(option);
+}
+
+void ConfigSettings::clearOtherArchiverOptions()
+{
+    mOtherArchiverOptions.clear();
 }
 
 //// Custom files compiler options =============================================
@@ -416,7 +439,7 @@ std::string ConfigSettings::linkerOption(const std::string& key, const std::stri
 
 std::string ConfigSettings::archiverOption(const std::string& key, const std::string& defaultValue) const
 {
-    return getOption(mArchiverOptions, key, defaultValue);
+    return getOption(mOtherArchiverOptions, key, defaultValue);
 }
 
 std::string ConfigSettings::getOption(const stringlist& options, const std::string& key, const std::string& defaultValue) const

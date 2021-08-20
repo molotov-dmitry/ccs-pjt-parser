@@ -87,14 +87,20 @@ public:
 
     //// Archiver options ======================================================
 
-    stringlist archiverOptions() const;
+    stringlist otherArchiverOptions() const;
 
     void addArchiverOption(const char* option);
     void addArchiverOptions(const stringlist& options);
-
     void removeArchiverOption(const char* option);
-
     void clearArchiverOptions();
+
+    void addOtherArchiverOption(const std::string& option);
+
+    void addOtherArchiverOptions(const stringlist& options);
+
+    void removeOtherArchiverOption(const std::string& option);
+
+    void clearOtherArchiverOptions();
 
     //// Custom files compiler options =========================================
 
@@ -119,8 +125,8 @@ private:
     stringlist mIncludePaths;
 
     stringlist mCompilerOptions;
-    stringlist mArchiverOptions;
     stringlist mOtherLinkerOptions;
+    stringlist mOtherArchiverOptions;
 
     std::map<std::string, FileOptions> mFileOptions;
 
