@@ -20,6 +20,8 @@ ConfigSettings::ConfigSettings(const ConfigSettings& other) :
     mOtherCompilerOptions(other.mOtherCompilerOptions),
     mOtherLinkerOptions(other.mOtherLinkerOptions),
     mOtherArchiverOptions(other.mOtherArchiverOptions),
+    mOutputFile(other.mOutputFile),
+    mMapFile(other.mMapFile),
     mFileOptions(other.mFileOptions)
 {
 
@@ -37,6 +39,8 @@ ConfigSettings&ConfigSettings::operator=(const ConfigSettings& other)
     this->mOtherCompilerOptions = other.mOtherCompilerOptions;
     this->mOtherLinkerOptions = other.mOtherLinkerOptions;
     this->mOtherArchiverOptions = other.mOtherArchiverOptions;
+    this->mOutputFile = other.mOutputFile;
+    this->mMapFile = other.mMapFile;
     this->mFileOptions = other.mFileOptions;
 
     return *this;
@@ -90,6 +94,16 @@ bool ConfigSettings::operator==(const ConfigSettings& other) const
     }
 
     if (this->mOtherArchiverOptions != other.mOtherArchiverOptions)
+    {
+        return false;
+    }
+
+    if (this->mOutputFile != other.mOutputFile)
+    {
+        return false;
+    }
+
+    if (this->mMapFile != other.mMapFile)
     {
         return false;
     }
@@ -320,6 +334,16 @@ stringlist ConfigSettings::otherLinkerOptions() const
     return mOtherLinkerOptions;
 }
 
+std::string ConfigSettings::outputFile() const
+{
+    return mOutputFile;
+}
+
+std::string ConfigSettings::mapFile() const
+{
+    return mMapFile;
+}
+
 void ConfigSettings::addLinkerOption(const std::string& option)
 {
     std::string value;
@@ -332,6 +356,14 @@ void ConfigSettings::addLinkerOption(const std::string& option)
     {
         mLibraries.push_back(fixpath(value));
     }
+    else if (is_flag(option, "-o", value))
+    {
+        mOutputFile = fixpath(value);
+    }
+    else if (is_flag(option, "-m", value))
+    {
+        mMapFile = fixpath(value);
+    }
     else
     {
         mOtherLinkerOptions.push_back(option);
@@ -342,11 +374,19 @@ void ConfigSettings::addLinkerOption(const std::string& flag, const std::string&
 {
     if (flag == "-i")
     {
-        mLibraryPaths.push_back(value);
+        mLibraryPaths.push_back(fixpath(value));
     }
     else if (flag == "-l")
     {
-        mLibraries.push_back(value);
+        mLibraries.push_back(fixpath(value));
+    }
+    else if (flag == "-o")
+    {
+        mOutputFile = fixpath(value);
+    }
+    else if (flag == "-m")
+    {
+        mMapFile = fixpath(value);
     }
     else
     {
@@ -358,7 +398,7 @@ void ConfigSettings::addLinkerOptions(const stringlist& options)
 {
     for (const std::string& option : options)
     {
-        addLinkerOption(option.c_str());
+        addLinkerOption(option);
     }
 }
 
@@ -374,6 +414,14 @@ void ConfigSettings::removeLinkerOption(const std::string& option)
     {
         mLibraries.remove(fixpath(value));
     }
+    else if (is_flag(option, "-o", value))
+    {
+        mOutputFile.clear();
+    }
+    else if (is_flag(option, "-m", value))
+    {
+        mMapFile.clear();
+    }
     else
     {
         mOtherLinkerOptions.remove(option);
@@ -385,6 +433,8 @@ void ConfigSettings::clearLinkerOptions()
     mLibraryPaths.clear();
     mLibraries.clear();
     mOtherLinkerOptions.clear();
+    mOutputFile.clear();
+    mMapFile.clear();
 }
 
 void ConfigSettings::addLibraryPath(const std::string& option)
@@ -454,6 +504,16 @@ void ConfigSettings::clearLibraries()
 void ConfigSettings::clearOtherLinkerOptions()
 {
     mOtherLinkerOptions.clear();
+}
+
+void ConfigSettings::setOutputFile(const std::string& option)
+{
+    mOutputFile = fixpath(option);
+}
+
+void ConfigSettings::setMapFile(const std::string& option)
+{
+    mMapFile = fixpath(option);
 }
 
 //// Archiver options ==========================================================

@@ -73,6 +73,9 @@ public:
     stringlist libraries() const;
     stringlist otherLinkerOptions() const;
 
+    std::string outputFile() const;
+    std::string mapFile() const;
+
     void addLinkerOption(const std::string& option);
     void addLinkerOption(const std::string& flag, const std::string& value, bool quote);
     void addLinkerOptions(const stringlist& options);
@@ -94,6 +97,9 @@ public:
     void clearLibraryPaths();
     void clearLibraries();
     void clearOtherLinkerOptions();
+
+    void setOutputFile(const std::string& option);
+    void setMapFile(const std::string& option);
 
     //// Archiver options ======================================================
 
@@ -140,6 +146,9 @@ private:
     stringlist mOtherCompilerOptions;
     stringlist mOtherLinkerOptions;
     stringlist mOtherArchiverOptions;
+
+    std::string mOutputFile;
+    std::string mMapFile;
 
     std::map<std::string, FileOptions> mFileOptions;
 

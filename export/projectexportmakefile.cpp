@@ -275,11 +275,24 @@ bool ProjectExportMakefile::writeData(const ProjectSettings& settings, std::ostr
             writeConfig(out, "LIBS_", config_u, fixVariables(join(settings.libraries(), ' ')));
             out << std::endl;
 
-            std::string mapPath = config.linkerOption("-m", "./$(OBJDIR_" + config_u + ")/$(TARGET).map");
-            writeConfig(out, "MAP_", config_u, fixVariables(mapPath));
+            if (not config.mapFile().empty())
+            {
+                writeConfig(out, "MAP_", config_u, fixVariables(config.mapFile()));
+            }
+            else
+            {
+                writeConfig(out, "MAP_", config_u, "./$(OBJDIR_" + config_u + ")/$(TARGET).map");
+            }
 
-            std::string outPath = config.linkerOption("-o", "./$(OBJDIR_" + config_u + ")/$(TARGET).out");
-            writeConfig(out, "OUT_", config_u, fixVariables(outPath));
+            if (not config.outputFile().empty())
+            {
+                writeConfig(out, "OUT_", config_u, fixVariables(config.outputFile()));
+            }
+            else
+            {
+                writeConfig(out, "OUT_", config_u, "./$(OBJDIR_" + config_u + ")/$(TARGET).out");
+            }
+
             out << std::endl;
 
             writeConfig(out, "OUT_", config_u + "_DIR", "$(dir $(OUT_" + config_u + "))");

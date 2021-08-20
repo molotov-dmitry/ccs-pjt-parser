@@ -125,6 +125,16 @@ bool ProjectExportCcs3::writeData(const ProjectSettings &settings, std::ostream 
 
             std::list<std::string> options = config.otherLinkerOptions();
 
+            if (not config.mapFile().empty())
+            {
+                options.push_back(to_option("-m", config.mapFile()));
+            }
+
+            if (not config.outputFile().empty())
+            {
+                options.push_back(to_option("-o", config.outputFile()));
+            }
+
             for (const std::string& libraryPath : config.libraryPaths())
             {
                 options.push_back(to_option("-i", libraryPath));
