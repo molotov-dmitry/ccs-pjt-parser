@@ -293,7 +293,7 @@ bool ProjectExportMakefile::writeData(const ProjectSettings& settings, std::ostr
             writeConfig(out, "OUT_", config_u + "_DIR", "$(dir $(OUT_" + config_u + "))");
             out << std::endl;
 
-            stringlist linkerOptions = config.linkerOptions();
+            stringlist linkerOptions = config.otherLinkerOptions();
             removeOption(linkerOptions, "-m", false);
             removeOption(linkerOptions, "-o", false);
             linkerOptions.push_back("-m");
@@ -385,7 +385,7 @@ bool ProjectExportMakefile::writeData(const ProjectSettings& settings, std::ostr
                 const std::string& source = objectSources.at(object);
                 FileOptions fileOptions = config.fileOptions(source);
 
-                stringlist compilerOptions = config.compilerOptions();
+                stringlist compilerOptions = config.otherCompilerOptions();
 
                 for (const std::string& optionRemove : fileOptions.optionsRemoved())
                 {
@@ -423,9 +423,9 @@ bool ProjectExportMakefile::writeData(const ProjectSettings& settings, std::ostr
         addVariables(variables, config.includePaths());
         addVariables(variables, config.defines());
         addVariables(variables, config.undefines());
-        addVariables(variables, config.compilerOptions());
-        addVariables(variables, config.linkerOptions());
-        addVariables(variables, config.archiverOptions());
+        addVariables(variables, config.otherCompilerOptions());
+        addVariables(variables, config.otherLinkerOptions());
+        addVariables(variables, config.otherArchiverOptions());
         addVariables(variables, buildSteps);
 
         writeComment(out, 2, "Checks");

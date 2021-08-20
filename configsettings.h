@@ -66,15 +66,21 @@ public:
 
     //// Linker options ========================================================
 
-    stringlist linkerOptions() const;
+    stringlist otherLinkerOptions() const;
 
-    void addLinkerOption(const char* option);
+    void addLinkerOption(const std::string& option);
     void addLinkerOption(const std::string& flag, const std::string& value, bool quote);
     void addLinkerOptions(const stringlist& options);
-
-    void removeLinkerOption(const char* option);
-
+    void removeLinkerOption(const std::string& option);
     void clearLinkerOptions();
+
+    void addOtherLinkerOption(const std::string& option);
+
+    void addOtherLinkerOptions(const stringlist& options);
+
+    void removeOtherLinkerOption(const std::string& option);
+
+    void clearOtherLinkerOptions();
 
     //// Archiver options ======================================================
 
@@ -110,8 +116,8 @@ private:
     stringlist mIncludePaths;
 
     stringlist mCompilerOptions;
-    stringlist mLinkerOptions;
     stringlist mArchiverOptions;
+    stringlist mOtherLinkerOptions;
 
     std::map<std::string, FileOptions> mFileOptions;
 

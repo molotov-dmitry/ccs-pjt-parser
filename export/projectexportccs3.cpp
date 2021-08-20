@@ -90,7 +90,7 @@ bool ProjectExportCcs3::writeData(const ProjectSettings &settings, std::ostream 
 
             out << "[\"Compiler\" Settings: \"" << configName << "\"]" << std::endl;
 
-            std::list<std::string> options = config.compilerOptions();
+            std::list<std::string> options = config.otherCompilerOptions();
 
             for (const std::string& include : config.includePaths())
             {
@@ -123,7 +123,7 @@ bool ProjectExportCcs3::writeData(const ProjectSettings &settings, std::ostream 
 
             out << "[\"Linker\" Settings: \"" << configName << "\"]" << std::endl;
 
-            writeConfig(out, "Options", join(config.linkerOptions(), ' '), false);
+            writeConfig(out, "Options", join(config.otherLinkerOptions(), ' '), false);
 
             out << std::endl;
         }
@@ -139,7 +139,7 @@ bool ProjectExportCcs3::writeData(const ProjectSettings &settings, std::ostream 
 
             out << "[\"Archiver\" Settings: \"" << configName << "\"]" << std::endl;
 
-            writeConfig(out, "Options", join(config.archiverOptions(), ' '), false);
+            writeConfig(out, "Options", join(config.otherArchiverOptions(), ' '), false);
 
             out << std::endl;
         }

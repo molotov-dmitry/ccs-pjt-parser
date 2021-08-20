@@ -16,8 +16,8 @@ ConfigSettings::ConfigSettings(const ConfigSettings& other) :
     mUndefines(other.mUndefines),
     mIncludePaths(other.mIncludePaths),
     mCompilerOptions(other.mCompilerOptions),
-    mLinkerOptions(other.mLinkerOptions),
-    mArchiverOptions(other.mArchiverOptions),
+    mOtherLinkerOptions(other.mOtherLinkerOptions),
+    mOtherArchiverOptions(other.mOtherArchiverOptions),
     mFileOptions(other.mFileOptions)
 {
 
@@ -31,8 +31,8 @@ ConfigSettings&ConfigSettings::operator=(const ConfigSettings& other)
     this->mUndefines = other.mUndefines;
     this->mIncludePaths = other.mIncludePaths;
     this->mCompilerOptions = other.mCompilerOptions;
-    this->mLinkerOptions = other.mLinkerOptions;
-    this->mArchiverOptions = other.mArchiverOptions;
+    this->mOtherLinkerOptions = other.mOtherLinkerOptions;
+    this->mOtherArchiverOptions = other.mOtherArchiverOptions;
     this->mFileOptions = other.mFileOptions;
 
     return *this;
@@ -70,12 +70,12 @@ bool ConfigSettings::operator==(const ConfigSettings& other) const
         return false;
     }
 
-    if (this->mLinkerOptions != other.mLinkerOptions)
+    if (this->mOtherLinkerOptions != other.mOtherLinkerOptions)
     {
         return false;
     }
 
-    if (this->mArchiverOptions != other.mArchiverOptions)
+    if (this->mOtherArchiverOptions != other.mOtherArchiverOptions)
     {
         return false;
     }
@@ -256,19 +256,19 @@ void ConfigSettings::clearCompilerOptions()
 
 //// Linker options ============================================================
 
-stringlist ConfigSettings::linkerOptions() const
+stringlist ConfigSettings::otherLinkerOptions() const
 {
-    return mLinkerOptions;
+    return mOtherLinkerOptions;
 }
 
-void ConfigSettings::addLinkerOption(const char* option)
+void ConfigSettings::addLinkerOption(const std::string& option)
 {
-    mLinkerOptions.push_back(option);
+    mOtherLinkerOptions.push_back(option);
 }
 
 void ConfigSettings::addLinkerOption(const std::string& flag, const std::string& value, bool quote)
 {
-    mLinkerOptions.push_back(to_option(flag, value, quote));
+    mOtherLinkerOptions.push_back(to_option(flag, value, quote));
 }
 
 void ConfigSettings::addLinkerOptions(const stringlist& options)
@@ -279,14 +279,37 @@ void ConfigSettings::addLinkerOptions(const stringlist& options)
     }
 }
 
-void ConfigSettings::removeLinkerOption(const char* option)
+void ConfigSettings::removeLinkerOption(const std::string& option)
 {
-    mLinkerOptions.remove(option);
+    mOtherLinkerOptions.remove(option);
 }
 
 void ConfigSettings::clearLinkerOptions()
 {
-    mLinkerOptions.clear();
+    mOtherLinkerOptions.clear();
+}
+
+void ConfigSettings::addOtherLinkerOption(const std::string& option)
+{
+    mOtherLinkerOptions.push_back(option);
+}
+
+void ConfigSettings::addOtherLinkerOptions(const stringlist& options)
+{
+    for (const std::string& option : options)
+    {
+        addOtherLinkerOption(option);
+    }
+}
+
+void ConfigSettings::removeOtherLinkerOption(const std::string& option)
+{
+    mOtherLinkerOptions.remove(option);
+}
+
+void ConfigSettings::clearOtherLinkerOptions()
+{
+    mOtherLinkerOptions.clear();
 }
 
 //// Archiver options ==========================================================
@@ -353,7 +376,7 @@ std::string ConfigSettings::compilerOption(const std::string& key, const std::st
 
 std::string ConfigSettings::linkerOption(const std::string& key, const std::string& defaultValue) const
 {
-    return getOption(mLinkerOptions, key, defaultValue);
+    return getOption(mOtherLinkerOptions, key, defaultValue);
 }
 
 std::string ConfigSettings::archiverOption(const std::string& key, const std::string& defaultValue) const
