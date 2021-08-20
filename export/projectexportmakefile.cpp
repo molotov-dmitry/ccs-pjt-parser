@@ -272,7 +272,38 @@ bool ProjectExportMakefile::writeData(const ProjectSettings& settings, std::ostr
             writeComment(out, 3, "Linker options");
 
             writeConfig(out, "MEM_", config_u,  fixVariables(join(settings.commands(), ' '))); //TODO: replace with ordered list
-            writeConfig(out, "LIBS_", config_u, fixVariables(join(settings.libraries(), ' ')));
+            writeConfig(out, "ARCHIVES_", config_u, fixVariables(join(settings.libraries(), ' ')));
+            out << std::endl;
+
+            bool haveLibPaths = not config.libraryPaths().empty();
+            bool haveLibs = not config.libraries().empty();
+            stringlist libflags;
+
+            if (haveLibPaths)
+            {
+                writeConfig(out,
+                            "LIBS_PATHS_",
+                            config_u,
+                            fixVariables(join(config.libraryPaths(), ' ')));
+
+                libflags.push_back("$(addsuffix \",$(addprefix -i\",$(LIBS_PATHS_" + config_u + "))))");
+            }
+
+            if (haveLibs)
+            {
+                writeConfig(out,
+                            "LIBS_",
+                            config_u,
+                            fixVariables(join(config.libraries(), ' ')));
+
+                libflags.push_back("$(addsuffix \",$(addprefix -l\",$(LIBS_" + config_u + ")))");
+            }
+
+            if (haveLibs || haveLibPaths)
+            {
+                writeConfig(out, "LIBFLAGS_", config_u, join(libflags, ' '));
+            }
+
             out << std::endl;
 
             if (not config.mapFile().empty())
@@ -301,19 +332,15 @@ bool ProjectExportMakefile::writeData(const ProjectSettings& settings, std::ostr
             stringlist linkerOptions = config.otherLinkerOptions();
             removeOption(linkerOptions, "-m", false);
             removeOption(linkerOptions, "-o", false);
+
             linkerOptions.push_back("-m");
             linkerOptions.push_back("$(MAP_" + config_u + ")");
             linkerOptions.push_back("-o");
             linkerOptions.push_back("$(OUT_" + config_u + ")");
 
-            for (const std::string& libraryPath : config.libraryPaths())
+            if (haveLibs || haveLibPaths)
             {
-                linkerOptions.push_back("-i\"" + fixVariables(libraryPath) + "\"");
-            }
-
-            for (const std::string& lib : config.libraries())
-            {
-                linkerOptions.push_back("-l\"" + fixVariables(lib) + "\"");
+                linkerOptions.push_back("$(LIBFLAGS_" + config_u + ")");
             }
 
             writeConfig(out, "LDFLAGS_", config_u, join(linkerOptions, ' '));
@@ -324,7 +351,7 @@ bool ProjectExportMakefile::writeData(const ProjectSettings& settings, std::ostr
             out << config_l << ": $(OUT_" << config_u << ")" << std::endl;
             out << std::endl;
 
-            out << string_format("$(OUT_%s): $(MEM_%s) $(OBJDIR_%s)/pre_build $(OBJECTS_%s) $(LIBS_%s)",
+            out << string_format("$(OUT_%s): $(MEM_%s) $(OBJDIR_%s)/pre_build $(OBJECTS_%s) $(ARCHIVES_%s)",
                                  config_u.c_str(),
                                  config_u.c_str(),
                                  config_u.c_str(),
@@ -332,7 +359,7 @@ bool ProjectExportMakefile::writeData(const ProjectSettings& settings, std::ostr
                                  config_u.c_str()) << std::endl;
 
             out << "\t" << "mkdir -p $(OUT_" << config_u << "_DIR)" << std::endl;
-            out << "\t" << string_format("$(LD) $(LDFLAGS_%s) $(MEM_%s) $(OBJECTS_%s) $(LIBS_%s)",
+            out << "\t" << string_format("$(LD) $(LDFLAGS_%s) $(MEM_%s) $(OBJECTS_%s) $(ARCHIVES_%s)",
                                          config_u.c_str(),
                                          config_u.c_str(),
                                          config_u.c_str(),
@@ -349,7 +376,7 @@ bool ProjectExportMakefile::writeData(const ProjectSettings& settings, std::ostr
         out << "pre_" << config_l << ": $(OBJDIR_" << config_u << ")/pre_build" << std::endl;
         out << std::endl;
 
-        out << string_format("$(OBJDIR_%s)/pre_build: $(MEM_%s) $(SOURCES) $(LIBS_%s) $(MAKEFILE)",
+        out << string_format("$(OBJDIR_%s)/pre_build: $(MEM_%s) $(SOURCES) $(ARCHIVES_%s) $(MAKEFILE)",
                              config_u.c_str(),
                              config_u.c_str(),
                              config_u.c_str()) << std::endl;
