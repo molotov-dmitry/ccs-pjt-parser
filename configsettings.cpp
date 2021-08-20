@@ -141,7 +141,7 @@ void ConfigSettings::addCompilerOption(const char* option)
 {
     if (starts_with(option, "-i\"") && ends_with(option, "\""))
     {
-        std::string includePath = std::string(option).substr(3, strlen(option) - 4);
+        std::string includePath = fixpath(std::string(option).substr(3, strlen(option) - 4));
 
         mIncludePaths.push_back(includePath);
     }
@@ -177,7 +177,7 @@ void ConfigSettings::addUndefine(const std::string& option)
 
 void ConfigSettings::addIncludePath(const std::string& option)
 {
-    mIncludePaths.push_back(option);
+    mIncludePaths.push_back(fixpath(option));
 }
 
 void ConfigSettings::addOtherCompilerOption(const std::string& option)
