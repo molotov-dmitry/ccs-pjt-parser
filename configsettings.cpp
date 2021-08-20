@@ -404,9 +404,11 @@ void ConfigSettings::clearOtherArchiverOptions()
 
 FileOptions ConfigSettings::fileOptions(const std::string& file) const
 {
-    if (mFileOptions.find(file) != mFileOptions.end())
+    std::string fileFixed = fixpath(file);
+
+    if (mFileOptions.find(fileFixed) != mFileOptions.end())
     {
-        return mFileOptions.at(file);
+        return mFileOptions.at(fileFixed);
     }
     else
     {
@@ -416,7 +418,7 @@ FileOptions ConfigSettings::fileOptions(const std::string& file) const
 
 FileOptions&ConfigSettings::file(const std::string& file)
 {
-    return mFileOptions[file];
+    return mFileOptions[fixpath(file)];
 }
 
 void ConfigSettings::clearFileLinkOrder()

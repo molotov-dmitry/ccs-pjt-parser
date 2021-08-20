@@ -109,7 +109,7 @@ bool ProjectParser::getFileSettingsSection(const std::string& line, std::string&
         return false;
     }
 
-    if (file_set.find(file) == file_set.end())
+    if (file_set.find(fixpath(file)) == file_set.end())
     {
         return false;
     }
