@@ -190,26 +190,6 @@ bool ProjectExportMakefile::writeData(const ProjectSettings& settings, std::ostr
     writeConfig(out, "OBJECTS", join(objects, ' '));
     out << std::endl;
 
-    //// Objects directories ===================================================
-
-    for (const std::string& configName : settings.configs())
-    {
-        writeConfig(out, "OBJDIR_", to_upper(configName), configName);
-    }
-
-    out << std::endl;
-
-    //// Objects ===============================================================
-
-    for (const std::string& configName : settings.configs())
-    {
-        std::string objectPaths = "$(addprefix " + configName + "/,$(OBJECTS))";
-
-        writeConfig(out, "OBJECTS_", to_upper(configName), objectPaths);
-    }
-
-    out << std::endl;
-
     //// Phony targets =========================================================
 
     stringlist phonyTargets;
@@ -254,6 +234,18 @@ bool ProjectExportMakefile::writeData(const ProjectSettings& settings, std::ostr
         const ConfigSettings config = settings.configSettings(configName);
 
         writeComment(out, 1, configName);
+
+        //// Objects directories -----------------------------------------------
+
+        writeConfig(out, "OBJDIR_", to_upper(configName), configName);
+
+        //// Objects -----------------------------------------------------------
+
+        std::string objectPaths = "$(addprefix " + configName + "/,$(OBJECTS))";
+
+        writeConfig(out, "OBJECTS_", to_upper(configName), objectPaths);
+
+        out << std::endl;
 
         //// Compiler options --------------------------------------------------
 
