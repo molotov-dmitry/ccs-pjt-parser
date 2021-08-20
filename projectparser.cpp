@@ -174,7 +174,7 @@ bool ProjectParser::parseSection(const std::string& line)
     else
     {
         mSectionType = SectionType::NONE;
-    };
+    }
 
     return true;
 }
