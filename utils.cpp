@@ -60,6 +60,24 @@ bool ends_with(const std::string& str, const std::string& end, bool case_sensiti
     }
 }
 
+bool is_flag(const std::string& option, const char* flag, std::string& value)
+{
+    size_t flaglen = strlen(flag);
+
+    if (option.length() >= flaglen + 2)
+    {
+        if (starts_with(option, flag) &&
+            option[flaglen] == '"' &&
+            option.back() == '"')
+        {
+            value = option.substr(flaglen + 1, option.length() - 2 - flaglen);
+            return true;
+        }
+    }
+
+    return false;
+}
+
 bool split_config_line(const std::string& line, std::string& key, std::string& val)
 {
     std::size_t pos = line.find('=');

@@ -14,6 +14,8 @@ std::string string_format(const char* format, ...);
 bool starts_with(const std::string& str, const std::string& start, bool case_sensitive = true);
 bool ends_with(const std::string& str, const std::string& end, bool case_sensitive = true);
 
+bool is_flag(const std::string& option, const char* flag, std::string& value);
+
 bool split_config_line(const std::string& line, std::string& key, std::string& val);
 
 std::string replace(std::string str, char from, char to);

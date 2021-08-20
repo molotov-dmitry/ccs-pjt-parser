@@ -139,27 +139,24 @@ stringlist ConfigSettings::compilerOptions() const
 
 void ConfigSettings::addCompilerOption(const char* option)
 {
-    if (starts_with(option, "-i\"") && ends_with(option, "\""))
-    {
-        std::string includePath = fixpath(std::string(option).substr(3, strlen(option) - 4));
+    std::string value;
 
-        mIncludePaths.push_back(includePath);
+    if (is_flag(option, "-i", value))
+    {
+        mIncludePaths.push_back(fixpath(value));
     }
-    else if (starts_with(option, "-d\"") && ends_with(option, "\""))
+    else if (is_flag(option, "-d", value))
     {
-        std::string define = std::string(option).substr(3, strlen(option) - 4);
-
-        mDefines.push_back(define);
+        mDefines.push_back(value);
     }
-    else if (starts_with(option, "-u\"") && ends_with(option, "\""))
+    else if (is_flag(option, "-u", value))
     {
-        std::string undefine = std::string(option).substr(3, strlen(option) - 4);
-
-        mUndefines.push_back(undefine);
+        mUndefines.push_back(value);
     }
     else
     {
-        std::string opt = std::string(option);
+        mCompilerOptions.push_back(option);
+    }
 
         mCompilerOptions.push_back(opt);
     }
