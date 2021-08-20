@@ -123,7 +123,19 @@ bool ProjectExportCcs3::writeData(const ProjectSettings &settings, std::ostream 
 
             out << "[\"Linker\" Settings: \"" << configName << "\"]" << std::endl;
 
-            writeConfig(out, "Options", join(config.otherLinkerOptions(), ' '), false);
+            std::list<std::string> options = config.otherLinkerOptions();
+
+            for (const std::string& libraryPath : config.libraryPaths())
+            {
+                options.push_back("-i\"" + libraryPath + "\"");
+            }
+
+            for (const std::string& lib : config.libraries())
+            {
+                options.push_back("-l\"" + lib + "\"");
+            }
+
+            writeConfig(out, "Options", join(options, ' '), false);
 
             out << std::endl;
         }

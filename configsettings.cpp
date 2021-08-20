@@ -15,7 +15,9 @@ ConfigSettings::ConfigSettings(const ConfigSettings& other) :
     mDefines(other.mDefines),
     mUndefines(other.mUndefines),
     mIncludePaths(other.mIncludePaths),
-    mCompilerOptions(other.mCompilerOptions),
+    mLibraryPaths(other.mLibraryPaths),
+    mLibraries(other.mLibraries),
+    mOtherCompilerOptions(other.mOtherCompilerOptions),
     mOtherLinkerOptions(other.mOtherLinkerOptions),
     mOtherArchiverOptions(other.mOtherArchiverOptions),
     mFileOptions(other.mFileOptions)
@@ -30,7 +32,9 @@ ConfigSettings&ConfigSettings::operator=(const ConfigSettings& other)
     this->mDefines = other.mDefines;
     this->mUndefines = other.mUndefines;
     this->mIncludePaths = other.mIncludePaths;
-    this->mCompilerOptions = other.mCompilerOptions;
+    this->mLibraryPaths = other.mLibraryPaths;
+    this->mLibraries = other.mLibraries;
+    this->mOtherCompilerOptions = other.mOtherCompilerOptions;
     this->mOtherLinkerOptions = other.mOtherLinkerOptions;
     this->mOtherArchiverOptions = other.mOtherArchiverOptions;
     this->mFileOptions = other.mFileOptions;
@@ -65,7 +69,17 @@ bool ConfigSettings::operator==(const ConfigSettings& other) const
         return false;
     }
 
-    if (this->mCompilerOptions != other.mCompilerOptions)
+    if (this->mLibraryPaths != other.mLibraryPaths)
+    {
+        return false;
+    }
+
+    if (this->mLibraries != other.mLibraries)
+    {
+        return false;
+    }
+
+    if (this->mOtherCompilerOptions != other.mOtherCompilerOptions)
     {
         return false;
     }
@@ -134,7 +148,7 @@ stringlist ConfigSettings::includePaths() const
 
 stringlist ConfigSettings::otherCompilerOptions() const
 {
-    return mCompilerOptions;
+    return mOtherCompilerOptions;
 }
 
 void ConfigSettings::addCompilerOption(const std::string& option)
@@ -155,7 +169,7 @@ void ConfigSettings::addCompilerOption(const std::string& option)
     }
     else
     {
-        mCompilerOptions.push_back(option);
+        mOtherCompilerOptions.push_back(option);
     }
 }
 
@@ -185,7 +199,7 @@ void ConfigSettings::removeCompilerOption(const std::string& option)
     }
     else
     {
-        mCompilerOptions.remove(option);
+        mOtherCompilerOptions.remove(option);
     }
 }
 
@@ -194,7 +208,7 @@ void ConfigSettings::clearCompilerOptions()
     mIncludePaths.clear();
     mDefines.clear();
     mUndefines.clear();
-    mCompilerOptions.clear();
+    mOtherCompilerOptions.clear();
 }
 
 void ConfigSettings::addDefine(const std::string& option)
@@ -214,7 +228,7 @@ void ConfigSettings::addIncludePath(const std::string& option)
 
 void ConfigSettings::addOtherCompilerOption(const std::string& option)
 {
-    mCompilerOptions.push_back(option);
+    mOtherCompilerOptions.push_back(option);
 }
 
 void ConfigSettings::addDefines(const stringlist& options)
@@ -266,7 +280,7 @@ void ConfigSettings::removeIncludePath(const std::string& option)
 
 void ConfigSettings::removeOtherCompilerOption(const std::string& option)
 {
-    mCompilerOptions.remove(option);
+    mOtherCompilerOptions.remove(option);
 }
 
 void ConfigSettings::clearDefines()
@@ -286,10 +300,20 @@ void ConfigSettings::clearIncludePaths()
 
 void ConfigSettings::clearOtherCompilerOptions()
 {
-    mCompilerOptions.clear();
+    mOtherCompilerOptions.clear();
 }
 
 //// Linker options ============================================================
+
+stringlist ConfigSettings::libraryPaths() const
+{
+    return mLibraryPaths;
+}
+
+stringlist ConfigSettings::libraries() const
+{
+    return mLibraries;
+}
 
 stringlist ConfigSettings::otherLinkerOptions() const
 {
@@ -298,12 +322,36 @@ stringlist ConfigSettings::otherLinkerOptions() const
 
 void ConfigSettings::addLinkerOption(const std::string& option)
 {
-    mOtherLinkerOptions.push_back(option);
+    std::string value;
+
+    if (is_flag(option, "-i", value))
+    {
+        mLibraryPaths.push_back(fixpath(value));
+    }
+    else if (is_flag(option, "-l", value))
+    {
+        mLibraries.push_back(fixpath(value));
+    }
+    else
+    {
+        mOtherLinkerOptions.push_back(option);
+    }
 }
 
 void ConfigSettings::addLinkerOption(const std::string& flag, const std::string& value, bool quote)
 {
-    mOtherLinkerOptions.push_back(to_option(flag, value, quote));
+    if (flag == "-i")
+    {
+        mLibraryPaths.push_back(value);
+    }
+    else if (flag == "-l")
+    {
+        mLibraries.push_back(value);
+    }
+    else
+    {
+        mOtherLinkerOptions.push_back(to_option(flag, value, quote));
+    }
 }
 
 void ConfigSettings::addLinkerOptions(const stringlist& options)
@@ -316,17 +364,58 @@ void ConfigSettings::addLinkerOptions(const stringlist& options)
 
 void ConfigSettings::removeLinkerOption(const std::string& option)
 {
-    mOtherLinkerOptions.remove(option);
+    std::string value;
+
+    if (is_flag(option, "-i", value))
+    {
+        mLibraryPaths.remove(fixpath(value));
+    }
+    else if (is_flag(option, "-l", value))
+    {
+        mLibraries.remove(fixpath(value));
+    }
+    else
+    {
+        mOtherLinkerOptions.remove(option);
+    }
 }
 
 void ConfigSettings::clearLinkerOptions()
 {
+    mLibraryPaths.clear();
+    mLibraries.clear();
     mOtherLinkerOptions.clear();
+}
+
+void ConfigSettings::addLibraryPath(const std::string& option)
+{
+    mLibraryPaths.push_back(fixpath(option));
+}
+
+void ConfigSettings::addLibrary(const std::string& option)
+{
+    mLibraries.push_back(fixpath(option));
 }
 
 void ConfigSettings::addOtherLinkerOption(const std::string& option)
 {
     mOtherLinkerOptions.push_back(option);
+}
+
+void ConfigSettings::addLibraryPaths(const stringlist& options)
+{
+    for (const std::string& option : options)
+    {
+        addLibraryPath(option);
+    }
+}
+
+void ConfigSettings::addLibraries(const stringlist& options)
+{
+    for (const std::string& option : options)
+    {
+        addLibrary(option);
+    }
 }
 
 void ConfigSettings::addOtherLinkerOptions(const stringlist& options)
@@ -337,9 +426,29 @@ void ConfigSettings::addOtherLinkerOptions(const stringlist& options)
     }
 }
 
+void ConfigSettings::removeLibraryPath(const std::string& option)
+{
+    mLibraryPaths.remove(fixpath(option));
+}
+
+void ConfigSettings::removeLibrary(const std::string& option)
+{
+    mLibraries.remove(fixpath(option));
+}
+
 void ConfigSettings::removeOtherLinkerOption(const std::string& option)
 {
     mOtherLinkerOptions.remove(option);
+}
+
+void ConfigSettings::clearLibraryPaths()
+{
+    mLibraryPaths.clear();
+}
+
+void ConfigSettings::clearLibraries()
+{
+    mLibraries.clear();
 }
 
 void ConfigSettings::clearOtherLinkerOptions()
@@ -431,7 +540,7 @@ void ConfigSettings::clearFileLinkOrder()
 
 std::string ConfigSettings::compilerOption(const std::string& key, const std::string& defaultValue) const
 {
-    return getOption(mCompilerOptions, key, defaultValue);
+    return getOption(mOtherCompilerOptions, key, defaultValue);
 }
 
 std::string ConfigSettings::linkerOption(const std::string& key, const std::string& defaultValue) const

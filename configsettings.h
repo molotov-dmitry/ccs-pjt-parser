@@ -69,6 +69,8 @@ public:
 
     //// Linker options ========================================================
 
+    stringlist libraryPaths() const;
+    stringlist libraries() const;
     stringlist otherLinkerOptions() const;
 
     void addLinkerOption(const std::string& option);
@@ -77,12 +79,20 @@ public:
     void removeLinkerOption(const std::string& option);
     void clearLinkerOptions();
 
+    void addLibraryPath(const std::string& option);
+    void addLibrary(const std::string& option);
     void addOtherLinkerOption(const std::string& option);
 
+    void addLibraryPaths(const stringlist& options);
+    void addLibraries(const stringlist& options);
     void addOtherLinkerOptions(const stringlist& options);
 
+    void removeLibraryPath(const std::string& option);
+    void removeLibrary(const std::string& option);
     void removeOtherLinkerOption(const std::string& option);
 
+    void clearLibraryPaths();
+    void clearLibraries();
     void clearOtherLinkerOptions();
 
     //// Archiver options ======================================================
@@ -124,7 +134,10 @@ private:
     stringlist mUndefines;
     stringlist mIncludePaths;
 
-    stringlist mCompilerOptions;
+    stringlist mLibraryPaths;
+    stringlist mLibraries;
+
+    stringlist mOtherCompilerOptions;
     stringlist mOtherLinkerOptions;
     stringlist mOtherArchiverOptions;
 

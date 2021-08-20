@@ -300,6 +300,17 @@ bool ProjectExportMakefile::writeData(const ProjectSettings& settings, std::ostr
             linkerOptions.push_back("$(MAP_" + config_u + ")");
             linkerOptions.push_back("-o");
             linkerOptions.push_back("$(OUT_" + config_u + ")");
+
+            for (const std::string& libraryPath : config.libraryPaths())
+            {
+                linkerOptions.push_back("-i\"" + fixVariables(libraryPath) + "\"");
+            }
+
+            for (const std::string& lib : config.libraries())
+            {
+                linkerOptions.push_back("-l\"" + fixVariables(lib) + "\"");
+            }
+
             writeConfig(out, "LDFLAGS_", config_u, join(linkerOptions, ' '));
             out << std::endl;
 
@@ -423,6 +434,8 @@ bool ProjectExportMakefile::writeData(const ProjectSettings& settings, std::ostr
         addVariables(variables, config.includePaths());
         addVariables(variables, config.defines());
         addVariables(variables, config.undefines());
+        addVariables(variables, config.libraryPaths());
+        addVariables(variables, config.libraries());
         addVariables(variables, config.otherCompilerOptions());
         addVariables(variables, config.otherLinkerOptions());
         addVariables(variables, config.otherArchiverOptions());
