@@ -40,9 +40,12 @@ public:
     stringlist defines() const;
     stringlist undefines() const;
     stringlist includePaths() const;
-    stringlist compilerOptions() const;
+    stringlist otherCompilerOptions() const;
 
-    void addCompilerOption(const char* option);
+    void addCompilerOption(const std::string& option);
+    void addCompilerOptions(const stringlist& options);
+    void removeCompilerOption(const std::string& option);
+    void clearCompilerOptions();
 
     void addDefine(const std::string& option);
     void addUndefine(const std::string& option);
@@ -52,17 +55,17 @@ public:
     void addDefines(const stringlist& options);
     void addUndefines(const stringlist& options);
     void addIncludePaths(const stringlist& options);
-    void addCompilerOptions(const stringlist& options);
+    void addOtherCompilerOptions(const stringlist& options);
 
-    void removeDefine(const char* option);
-    void removeUndefine(const char* option);
-    void removeIncludePath(const char* option);
-    void removeCompilerOption(const char* option);
+    void removeDefine(const std::string& option);
+    void removeUndefine(const std::string& option);
+    void removeIncludePath(const std::string& option);
+    void removeOtherCompilerOption(const std::string& option);
 
     void clearDefines();
     void clearUndefines();
     void clearIncludePaths();
-    void clearCompilerOptions();
+    void clearOtherCompilerOptions();
 
     //// Linker options ========================================================
 

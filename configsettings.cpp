@@ -132,12 +132,12 @@ stringlist ConfigSettings::includePaths() const
     return mIncludePaths;
 }
 
-stringlist ConfigSettings::compilerOptions() const
+stringlist ConfigSettings::otherCompilerOptions() const
 {
     return mCompilerOptions;
 }
 
-void ConfigSettings::addCompilerOption(const char* option)
+void ConfigSettings::addCompilerOption(const std::string& option)
 {
     std::string value;
 
@@ -157,9 +157,44 @@ void ConfigSettings::addCompilerOption(const char* option)
     {
         mCompilerOptions.push_back(option);
     }
+}
 
-        mCompilerOptions.push_back(opt);
+void ConfigSettings::addCompilerOptions(const stringlist& options)
+{
+    for (const std::string& option : options)
+    {
+        addCompilerOption(option);
     }
+}
+
+void ConfigSettings::removeCompilerOption(const std::string& option)
+{
+    std::string value;
+
+    if (is_flag(option, "-i", value))
+    {
+        mIncludePaths.remove(fixpath(value));
+    }
+    else if (is_flag(option, "-d", value))
+    {
+        mDefines.remove(value);
+    }
+    else if (is_flag(option, "-u", value))
+    {
+        mUndefines.remove(value);
+    }
+    else
+    {
+        mCompilerOptions.remove(option);
+    }
+}
+
+void ConfigSettings::clearCompilerOptions()
+{
+    mIncludePaths.clear();
+    mDefines.clear();
+    mUndefines.clear();
+    mCompilerOptions.clear();
 }
 
 void ConfigSettings::addDefine(const std::string& option)
@@ -206,30 +241,30 @@ void ConfigSettings::addIncludePaths(const stringlist& options)
     }
 }
 
-void ConfigSettings::addCompilerOptions(const stringlist& options)
+void ConfigSettings::addOtherCompilerOptions(const stringlist& options)
 {
     for (const std::string& option : options)
     {
-        addOtherCompilerOption(option.c_str());
+        addOtherCompilerOption(option);
     }
 }
 
-void ConfigSettings::removeDefine(const char* option)
+void ConfigSettings::removeDefine(const std::string& option)
 {
     mDefines.remove(option);
 }
 
-void ConfigSettings::removeUndefine(const char* option)
+void ConfigSettings::removeUndefine(const std::string& option)
 {
     mUndefines.remove(option);
 }
 
-void ConfigSettings::removeIncludePath(const char* option)
+void ConfigSettings::removeIncludePath(const std::string& option)
 {
-    mIncludePaths.remove(option);
+    mIncludePaths.remove(fixpath(option));
 }
 
-void ConfigSettings::removeCompilerOption(const char* option)
+void ConfigSettings::removeOtherCompilerOption(const std::string& option)
 {
     mCompilerOptions.remove(option);
 }
@@ -249,7 +284,7 @@ void ConfigSettings::clearIncludePaths()
     mIncludePaths.clear();
 }
 
-void ConfigSettings::clearCompilerOptions()
+void ConfigSettings::clearOtherCompilerOptions()
 {
     mCompilerOptions.clear();
 }
