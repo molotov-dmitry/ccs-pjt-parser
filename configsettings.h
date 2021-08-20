@@ -49,10 +49,10 @@ public:
     void addIncludePath(const std::string& option);
     void addOtherCompilerOption(const std::string& option);
 
-    void addDefines(stringlist& options);
-    void addUndefines(stringlist& options);
-    void addIncludePaths(stringlist& options);
-    void addCompilerOptions(stringlist& options);
+    void addDefines(const stringlist& options);
+    void addUndefines(const stringlist& options);
+    void addIncludePaths(const stringlist& options);
+    void addCompilerOptions(const stringlist& options);
 
     void removeDefine(const char* option);
     void removeUndefine(const char* option);
@@ -70,7 +70,7 @@ public:
 
     void addLinkerOption(const char* option);
     void addLinkerOption(const std::string& flag, const std::string& value, bool quote);
-    void addLinkerOptions(stringlist& options);
+    void addLinkerOptions(const stringlist& options);
 
     void removeLinkerOption(const char* option);
 
@@ -81,7 +81,7 @@ public:
     stringlist archiverOptions() const;
 
     void addArchiverOption(const char* option);
-    void addArchiverOptions(stringlist& options);
+    void addArchiverOptions(const stringlist& options);
 
     void removeArchiverOption(const char* option);
 

@@ -185,24 +185,36 @@ void ConfigSettings::addOtherCompilerOption(const std::string& option)
     mCompilerOptions.push_back(option);
 }
 
-void ConfigSettings::addDefines(stringlist& options)
+void ConfigSettings::addDefines(const stringlist& options)
 {
-    mDefines.splice(mDefines.end(), options);
+    for (const std::string& option : options)
+    {
+        addDefine(option);
+    }
 }
 
-void ConfigSettings::addUndefines(stringlist& options)
+void ConfigSettings::addUndefines(const stringlist& options)
 {
-    mUndefines.splice(mUndefines.end(), options);
+    for (const std::string& option : options)
+    {
+        addUndefine(option);
+    }
 }
 
-void ConfigSettings::addIncludePaths(stringlist& options)
+void ConfigSettings::addIncludePaths(const stringlist& options)
 {
-    mIncludePaths.splice(mIncludePaths.end(), options);
+    for (const std::string& option : options)
+    {
+        addIncludePath(option);
+    }
 }
 
-void ConfigSettings::addCompilerOptions(stringlist& options)
+void ConfigSettings::addCompilerOptions(const stringlist& options)
 {
-    mCompilerOptions.splice(mCompilerOptions.end(), options);
+    for (const std::string& option : options)
+    {
+        addOtherCompilerOption(option.c_str());
+    }
 }
 
 void ConfigSettings::removeDefine(const char* option)
@@ -262,9 +274,12 @@ void ConfigSettings::addLinkerOption(const std::string& flag, const std::string&
     mLinkerOptions.push_back(to_option(flag, value, quote));
 }
 
-void ConfigSettings::addLinkerOptions(stringlist& options)
+void ConfigSettings::addLinkerOptions(const stringlist& options)
 {
-    mLinkerOptions.splice(mLinkerOptions.end(), options);
+    for (const std::string& option : options)
+    {
+        addLinkerOption(option.c_str());
+    }
 }
 
 void ConfigSettings::removeLinkerOption(const char* option)
@@ -289,9 +304,12 @@ void ConfigSettings::addArchiverOption(const char* option)
     mArchiverOptions.push_back(option);
 }
 
-void ConfigSettings::addArchiverOptions(stringlist& options)
+void ConfigSettings::addArchiverOptions(const stringlist& options)
 {
-    mArchiverOptions.splice(mArchiverOptions.end(), options);
+    for (const std::string& option : options)
+    {
+        addArchiverOption(option.c_str());
+    }
 }
 
 void ConfigSettings::removeArchiverOption(const char* option)
