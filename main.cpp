@@ -3,13 +3,46 @@
 #include "export/projectexportmakefile.h"
 
 #include <iostream>
+#include <strings.h>
+
+#include "utils.h"
+
+enum Args
+{
+    ARG_EXEC,
+    ARG_IN_FILE,
+    ARG_OUT_FORMAT,
+    ARG_OUT_FILE
+};
+
+enum OutputFormats
+{
+    OF_PJT,
+    OF_MAKEFILE,
+
+    OF_COUNT
+};
+
+static const char* const FORMAT_NAMES[OF_COUNT] =
+{
+    "pjt",
+    "make",
+};
+
+void usage(const char* exec)
+{
+    std::cerr << "Usage: " << exec
+              << " input [format1 output1] [format2 output2]..."
+              << std::endl;
+}
 
 int main(int argc, char* argv[])
 {
     //// Check argument count ==================================================
 
-    if (argc < 2)
+    if (argc <= ARG_IN_FILE)
     {
+        usage(argv[0]);
         std::cerr << "Missing project path argument" << std::endl;
         return 1;
     }
@@ -26,39 +59,97 @@ int main(int argc, char* argv[])
 
     ProjectSettings settings = reader.projectSettings();
 
-    //// Print project =========================================================
+    //// Write output ==========================================================
 
-    const char* exportPathPjt = nullptr;
+    int currIndex = 0;
 
-    if (argc > 2)
+    while (true)
     {
-        exportPathPjt = argv[2];
-    }
+        OutputFormats format = OF_COUNT;
 
-    ProjectExportCcs3 writer;
+        //// Get output file options -------------------------------------------
 
-    if (not writer.write(settings, exportPathPjt))
-    {
-        std::cerr << writer.lastError() << std::endl;
-        return 3;
-    }
+        if (argc <= ARG_OUT_FORMAT + currIndex)
+        {
+            break;
+        }
 
-    //// Print makefile ========================================================
+        for (size_t i = 0; i < OF_COUNT; ++i)
+        {
+            if (strcasecmp(argv[ARG_OUT_FORMAT + currIndex], FORMAT_NAMES[i]) == 0)
+            {
+                format = (OutputFormats)i;
+                break;
+            }
+        }
 
-    const char* exportPathMakefile = nullptr;
+        if (format == OF_COUNT)
+        {
+            usage(argv[0]);
+            std::cerr << "Wrong output format: "
+                      << argv[ARG_OUT_FORMAT + currIndex]
+                      << std::endl;
 
-    if (argc > 3)
-    {
-        exportPathMakefile = argv[3];
-    }
+            stringlist formats;
 
-    ProjectExportMakefile writerMakefile;
-    writerMakefile.setTarget(argv[1]);
+            for (size_t i = 0; i < OF_COUNT; ++i)
+            {
+                formats.push_back(FORMAT_NAMES[i]);
+            }
 
-    if (not writerMakefile.write(settings, exportPathMakefile))
-    {
-        std::cerr << writerMakefile.lastError() << std::endl;
-        return 3;
+            std::cerr << "Available formats: "
+                      << join(formats, ' ')
+                      << std::endl;
+        }
+
+        if (argc <= ARG_OUT_FILE + currIndex)
+        {
+            usage(argv[0]);
+            std::cerr << "Missing output path argument" << std::endl;
+            return 1;
+        }
+
+        //// Print output ------------------------------------------------------
+
+        AbstractProjectExport* writer = nullptr;
+
+        switch (format)
+        {
+        case OF_PJT:
+        {
+            writer = new ProjectExportCcs3;
+            break;
+        }
+
+        case OF_MAKEFILE:
+        {
+            ProjectExportMakefile* writerMakefile = new ProjectExportMakefile;
+            writerMakefile->setTarget(argv[ARG_OUT_FILE + currIndex]);
+            writer = writerMakefile;
+            break;
+        }
+
+        case OF_COUNT:
+        {
+            break;
+        }
+        }
+
+        if (writer == nullptr)
+        {
+            std::cerr << "Internal error" << std::endl;
+            return 3;
+        }
+
+        if (not writer->write(settings, argv[ARG_OUT_FILE + currIndex]))
+        {
+            std::cerr << writer->lastError() << std::endl;
+            return 3;
+        }
+
+        //// -------------------------------------------------------------------
+
+        currIndex += 2;
     }
 
     //// =======================================================================
