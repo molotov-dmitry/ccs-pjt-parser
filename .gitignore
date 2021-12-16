@@ -1,4 +1,6 @@
-/*.pro.user*
-/build/
+/*.creator.user*
 /*.mk
 /*.pjt
+/build/
+/ccs-pjt-parser
+
