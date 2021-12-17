@@ -1,5 +1,7 @@
 TARGET          := ccs-pjt-parser.exe
 
+MAKEFILE        := $(lastword $(MAKEFILE_LIST))
+
 OBJDIR          := build/objwin
 
 CC              := i686-w64-mingw32-g++-win32
@@ -26,7 +28,7 @@ all: $(TARGET)
 
 ### Build ======================================================================
 
-$(TARGET): $(OBJDIR) $(OBJECTS) Makefile
+$(TARGET): $(OBJDIR) $(OBJECTS) $(MAKEFILE)
 	$(CC) $(LDFLAGS) -o $(TARGET) $(OBJECTS)
 	$(STRIP) --strip-all $(TARGET)
 
@@ -39,5 +41,5 @@ clean:
 $(OBJDIR):
 	mkdir -p $(OBJDIR)
 
-$(OBJDIR)/%.o : %.cpp Makefile
+$(OBJDIR)/%.o : %.cpp $(MAKEFILE)
 	$(CC) $(CXXFLAGS) -c $< -o $@

@@ -1,6 +1,8 @@
 TARGET          := ccs-pjt-parser
 INSTALLDIR      := $(PREFIX)/usr/local/bin
 
+MAKEFILE        := $(lastword $(MAKEFILE_LIST))
+
 OBJDIR          := build/obj
 
 CC              := g++
@@ -27,7 +29,7 @@ all: $(TARGET)
 
 ### Build ======================================================================
 
-$(TARGET): $(OBJDIR) $(OBJECTS) Makefile
+$(TARGET): $(OBJDIR) $(OBJECTS) $(MAKEFILE)
 	$(CC) $(LDFLAGS) -o $(TARGET) $(OBJECTS)
 	$(STRIP) --strip-all $(TARGET)
 
@@ -48,5 +50,5 @@ uninstall:
 $(OBJDIR):
 	mkdir -p $(OBJDIR)
 
-$(OBJDIR)/%.o : %.cpp Makefile
+$(OBJDIR)/%.o : %.cpp $(MAKEFILE)
 	$(CC) $(CXXFLAGS) -c $< -o $@
