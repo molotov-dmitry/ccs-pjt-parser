@@ -6,6 +6,18 @@
 
 #include "utils.h"
 
+static char *strchrnull(char *string, int c)
+{
+    char* result = string;
+
+    while (*result != c && *result != '\0')
+    {
+        ++result;
+    }
+
+    return result;
+}
+
 ProjectReader::ProjectReader(const char* path)
 {
     if (path != nullptr)
@@ -93,7 +105,7 @@ bool ProjectReader::read(const char* path)
             ++currentLine;
         }
 
-        nextLine = strchrnul(currentLine, '\n');
+        nextLine = strchrnull(currentLine, '\n');
         size_t lineLength = (size_t)(nextLine - currentLine);
 
         int shift = -1;
@@ -146,11 +158,11 @@ void ProjectReader::removeLineFeeds(char* string, size_t& length)
 {
     size_t lineFeeds = 0;
 
-    char* lastLineFeed = strchrnul(string, '\r');
+    char* lastLineFeed = strchrnull(string, '\r');
 
     while (true)
     {
-        char* nextLineFeed = strchrnul(lastLineFeed + 1, '\r');
+        char* nextLineFeed = strchrnull(lastLineFeed + 1, '\r');
 
         if (nextLineFeed[0] == '\0')
         {

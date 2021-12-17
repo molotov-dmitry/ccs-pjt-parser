@@ -440,7 +440,7 @@ bool ProjectParser::parseSourceSettings(const std::string& key, const std::strin
 
     else if (strcasecmp(key.c_str(), "LinkOrder") == 0)
     {
-        uint order = 0;
+        unsigned int order = 0;
         int bytes = 0;
 
         if (sscanf(value.c_str(), "%u%n", &order, &bytes) != 1)
