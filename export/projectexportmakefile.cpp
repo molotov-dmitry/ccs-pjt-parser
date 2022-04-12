@@ -286,7 +286,7 @@ bool ProjectExportMakefile::writeData(const ProjectSettings& settings, std::ostr
                             config_u,
                             fixVariables(join(config.libraryPaths(), ' ')));
 
-                libflags.push_back("$(addsuffix \",$(addprefix -i\",$(LIBS_PATHS_" + config_u + "))))");
+                libflags.push_back("$(addsuffix \",$(addprefix -i\",$(LIBS_PATHS_" + config_u + ")))");
             }
 
             if (haveLibs)
