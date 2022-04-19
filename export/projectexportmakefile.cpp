@@ -444,7 +444,7 @@ bool ProjectExportMakefile::writeData(const ProjectSettings& settings, std::ostr
 
                 compilerOptions.push_back("-fr $(OBJDIR_" + config_u + ")");
 
-                out << "$(OBJDIR_" << config_u << ")/" << object << ": " << source << " $(MAKEFILE)" << std::endl;
+                out << "$(OBJDIR_" << config_u << ")/" << object << ": " << source << " $(MAKEFILE)" << " | $(OBJDIR_" + config_u + ")/pre_build" << std::endl;
                 out << "\t" << /*"cd $(dir " << source << ") && " <<*/ "$(CC) " << join(compilerOptions, ' ') << " $(IFLAGS_" << config_u << ") $(DFLAGS_" << config_u << ") " << source << std::endl;
                 out << std::endl;
             }
