@@ -216,9 +216,14 @@ bool ProjectExportMakefile::writeData(const ProjectSettings& settings, std::ostr
 
     //// Main targets ==========================================================
 
-    std::string configsTargets = join(to_lower(settings.configs()), ' ');
+    stringlist configsTargets;
 
-    out << "all: " << configsTargets << std::endl;
+    for (const std::string& configName : settings.configs())
+    {
+        configsTargets.push_back("post_" + to_lower(configName));
+    }
+
+    out << "all: " << join(configsTargets, ' ') << std::endl;
     out << std::endl;
     out << "clean:" << std::endl;
     out << "\t" << "rm -rf " << join(settings.configs(), ' ') << std::endl;
