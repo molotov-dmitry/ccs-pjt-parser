@@ -1,6 +1,7 @@
 ﻿#include "projectreader.h"
 #include "export/projectexportccs3.h"
 #include "export/projectexportmakefile.h"
+#include "export/projectexportqtmakefile.h"
 
 #include <iostream>
 #include <strings.h>
@@ -19,6 +20,9 @@ enum OutputFormats
 {
     OF_PJT,
     OF_MAKEFILE,
+    OF_QT_MAKE_SOURCES,
+    OF_QT_MAKE_DEFINES,
+    OF_QT_MAKE_INCLUDES,
 
     OF_COUNT
 };
@@ -27,6 +31,9 @@ static const char* const FORMAT_NAMES[OF_COUNT] =
 {
     "pjt",
     "make",
+    "qt_make_sources",
+    "qt_make_defines",
+    "qt_make_includes"
 };
 
 void usage(const char* exec)
@@ -126,6 +133,26 @@ int main(int argc, char* argv[])
             ProjectExportMakefile* writerMakefile = new ProjectExportMakefile;
             writerMakefile->setTarget(argv[ARG_OUT_FILE + currIndex]);
             writer = writerMakefile;
+            break;
+        }
+
+        case OF_QT_MAKE_SOURCES:
+        {
+            writer = new ProjectExportQtMakefileSources();
+            break;
+        }
+
+        case OF_QT_MAKE_DEFINES:
+        {
+            writer = new ProjectExportQtMakefileDefines(argv[ARG_OUT_FILE + currIndex]);
+            ++currIndex;
+            break;
+        }
+
+        case OF_QT_MAKE_INCLUDES:
+        {
+            writer = new ProjectExportQtMakefileIncludes(argv[ARG_OUT_FILE + currIndex]);
+            ++currIndex;
             break;
         }
 

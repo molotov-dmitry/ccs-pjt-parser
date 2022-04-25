@@ -11,6 +11,8 @@ export/projectexportccs3.cpp
 export/projectexportccs3.h
 export/projectexportmakefile.cpp
 export/projectexportmakefile.h
+export/projectexportqtmakefile.cpp
+export/projectexportqtmakefile.h
 fileoptions.cpp
 fileoptions.h
 main.cpp
